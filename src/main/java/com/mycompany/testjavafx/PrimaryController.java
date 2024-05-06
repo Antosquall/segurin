@@ -37,10 +37,13 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 
 /**
@@ -81,6 +84,12 @@ public class PrimaryController implements Initializable {
 
     private Usuario usuario;
 
+//    @FXML private RadioButton btnLight;
+//    @FXML private RadioButton btnDark;
+//    private final ToggleGroup groupGenero = new ToggleGroup();
+//
+//    @FXML
+//    private BorderPane myBorderPane;
     /**
      * Inicializa el controlador y configura los componentes de la interfaz de
      * usuario.
@@ -92,13 +101,15 @@ public class PrimaryController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         setupConnection();
         configurarMenuContextual();
         setupTables();
         configureTextFields();
-        setupMenu();
+
         //loadInitialData();
         setupTableListeners();
+
     }
 
     /**
@@ -169,9 +180,9 @@ public class PrimaryController implements Initializable {
      */
     private void loadInitialData() {
         loadClientesData();
-        loadPolizasData();
-        loadSiniestrosData();
-        loadRecibosData();
+//        loadPolizasData();
+//        loadSiniestrosData();
+//        loadRecibosData();
     }
 
     private void loadClientesData() {
@@ -186,15 +197,42 @@ public class PrimaryController implements Initializable {
     }
 
     private void loadPolizasData() {
-        // Implementar de manera similar a loadClientesData
+        try {
+            PolizaDAO polizaDao = new PolizaDAO(connection);
+            List<Poliza> polizas = polizaDao.getAllPolizas();  // Asume que tienes un método para obtener todas las pólizas
+            polizaClientes.clear();
+            polizaClientes.addAll(polizas);
+            polizaTable.setItems(polizaClientes);
+        } catch (SQLException e) {
+            Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, "Error loading policies data", e);
+            Util.mostrarAlerta("Error de Carga", "No se pudieron cargar los datos de las pólizas.");
+        }
     }
 
     private void loadSiniestrosData() {
-        // Implementar de manera similar a loadClientesData
+        try {
+            SiniestroDAO siniestroDao = new SiniestroDAO(connection);
+            List<Siniestro> siniestros = siniestroDao.getAllSiniestros();  // Asume que tienes un método para obtener todos los siniestros
+            siniestroPoliza.clear();
+            siniestroPoliza.addAll(siniestros);
+            siniestroTable.setItems(siniestroPoliza);
+        } catch (SQLException e) {
+            Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, "Error loading claims data", e);
+            Util.mostrarAlerta("Error de Carga", "No se pudieron cargar los datos de los siniestros.");
+        }
     }
 
     private void loadRecibosData() {
-        // Implementar de manera similar a loadClientesData
+        try {
+            ReciboDAO reciboDao = new ReciboDAO(connection);
+            List<Recibo> recibos = reciboDao.getAllRecibos();  // Asume que tienes un método para obtener todos los recibos
+            reciboPoliza.clear();
+            reciboPoliza.addAll(recibos);
+            reciboTable.setItems(reciboPoliza);
+        } catch (SQLException e) {
+            Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, "Error loading receipts data", e);
+            Util.mostrarAlerta("Error de Carga", "No se pudieron cargar los datos de los recibos.");
+        }
     }
 
     /**
@@ -330,8 +368,25 @@ public class PrimaryController implements Initializable {
     private void setupMenu() {
         MenuManager menuManager = new MenuManager();
         menuManager.menuComun(menuBar);
+        // Aquí se inicializan los menús pasando el rol del usuario.
+        //MenuManager menuManager = new MenuManager();
+        menuManager.construirMenus(menuBar, usuario.getRol());
         //menuManager.construirMenus(menuBar, loginUsuario.getRol());
-        menuManager.construirMenus(menuBar, "administrador");
+        //menuManager.construirMenus(menuBar);
+    }
+
+    /**
+     * Configura los permisos de vision de los menus.
+     */
+    private void configMenu(Usuario usuario) {
+        System.out.println(usuario.getNombreUsuario());
+        if (usuario.getRol() != "administrador") {
+
+        }
+//        MenuManager menuManager = new MenuManager();
+//        menuManager.menuComun(menuBar);
+//        //menuManager.construirMenus(menuBar, loginUsuario.getRol());
+//        menuManager.construirMenus(menuBar);
     }
 
     /**
@@ -341,14 +396,32 @@ public class PrimaryController implements Initializable {
      */
     public void initData(Usuario usuario) {
         this.usuario = usuario;
+
         // Aquí puedes inicializar o recargar datos que dependen del usuario
+        setupMenu();
         updateUI();
+        //configMenu(usuario);
     }
 
     private void updateUI() {
         // Actualiza la interfaz de usuario basada en la información del usuario
         textUser.setText(usuario.getNombreUsuario());
         textRol.setText(usuario.getRol());
+
+    }
+
+    
+    
+    //EN FASE DE PRUEBA
+    private void reloadAllData() {
+        loadClientesData();
+        loadPolizasData();
+        loadSiniestrosData();
+        loadRecibosData();
+        polizaClientes.clear();
+        reciboPoliza.clear();
+        siniestroPoliza.clear();
+
     }
 
     /**
@@ -379,7 +452,9 @@ public class PrimaryController implements Initializable {
     private void handleNuevoCliente(ActionEvent event) {
         FormClienteController formularioCliente = new FormClienteController();
         formularioCliente.mostrarVentanaPrincipal();
-        loadClientesData();
+        reloadAllData();
+        setupFilter();
+
     }
 
     /**
@@ -423,11 +498,11 @@ public class PrimaryController implements Initializable {
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setTitle("Advertencia");
                 alert.setHeaderText("Cliente no seleccionado.");
-                alert.setContentText("Por favor, seleccione un cliente para crear una poliza.");
+                alert.setContentText("Por favor, seleccione un cliente para crear una póliza.");
                 alert.showAndWait();
             }
         } else {
-            mostrarAlerta("Faltan datos", "Por favor, seleccione un cliente.");
+            Util.mostrarAlerta("Faltan datos", "Por favor, seleccione un cliente.");
         }
 
     }
@@ -457,12 +532,12 @@ public class PrimaryController implements Initializable {
                 System.err.println("Error al cargar la ventana de creación de póliza: " + e.getMessage());
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setTitle("Advertencia");
-                alert.setHeaderText("Poliza no seleccionado.");
-                alert.setContentText("Por favor, seleccione una poliza para grabar un siniestro.");
+                alert.setHeaderText("Póliza no seleccionado.");
+                alert.setContentText("Por favor, seleccione una póliza para grabar un siniestro.");
                 alert.showAndWait();
             }
         } else {
-            mostrarAlerta("Faltan datos", "Por favor, seleccione un cliente.");
+            Util.mostrarAlerta("Faltan datos", "Por favor, seleccione un cliente.");
         }
     }
 
@@ -491,12 +566,12 @@ public class PrimaryController implements Initializable {
                 System.err.println("Error al cargar la ventana de creación de recibo: " + e.getMessage());
                 Alert alert = new Alert(AlertType.WARNING);
                 alert.setTitle("Advertencia");
-                alert.setHeaderText("Poliza no seleccionado.");
-                alert.setContentText("Por favor, seleccione una poliza para grabar un recibo.");
+                alert.setHeaderText("Póliza no seleccionado.");
+                alert.setContentText("Por favor, seleccione una póliza para grabar un recibo.");
                 alert.showAndWait();
             }
         } else {
-            mostrarAlerta("Faltan datos", "Por favor, seleccione un cliente.");
+            Util.mostrarAlerta("Faltan datos", "Por favor, seleccione un cliente.");
         }
     }
 
@@ -517,8 +592,8 @@ public class PrimaryController implements Initializable {
 
         // Configura el menú contextual para polizaTable
         ContextMenu menuPolizas = new ContextMenu();
-        MenuItem editarPoliza = new MenuItem("Editar Poliza");
-        MenuItem eliminarPoliza = new MenuItem("Eliminar Poliza");
+        MenuItem editarPoliza = new MenuItem("Editar Póliza");
+        MenuItem eliminarPoliza = new MenuItem("Eliminar Póliza");
         menuPolizas.getItems().addAll(editarPoliza, eliminarPoliza);
         polizaTable.setContextMenu(menuPolizas);
         editarPoliza.setOnAction(this::editarItemSeleccionado);
@@ -571,14 +646,14 @@ public class PrimaryController implements Initializable {
                         loadClientesData();
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    mostrarAlerta("Error al cargar la ventana de edición", e.getMessage());
+                    //e.printStackTrace();
+                    Util.mostrarAlerta("Error al cargar la ventana de edición", e.getMessage());
                 }
             } else {
-                mostrarAlerta("Selección inválida", "Seleccione un elemento para editar.");
+                Util.mostrarAlerta("Selección inválida", "Seleccione un elemento para editar.");
             }
         } else {
-            mostrarAlerta("Error", "No se pudo determinar la tabla activa.");
+            Util.mostrarAlerta("Error", "No se pudo determinar la tabla activa.");
         }
     }
 
@@ -590,20 +665,20 @@ public class PrimaryController implements Initializable {
      */
     private void abrirEditorCliente(Cliente cliente) throws IOException {
         try {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("formEditCliente.fxml"));
-        Parent root = fxmlLoader.load();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("formEditCliente.fxml"));
+            Parent root = fxmlLoader.load();
 
-        // Obtener el controlador y pasar el ID del cliente
-        FormEditClienteController controller = fxmlLoader.getController();
-        controller.initData(cliente.getIdCliente());  // Asegúrate de que esto se llama después de cargar
+            // Obtener el controlador y pasar el ID del cliente
+            FormEditClienteController controller = fxmlLoader.getController();
+            controller.initData(cliente.getIdCliente());  // Asegúrate de que esto se llama después de cargar
 
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Editar Cliente");
-        stage.show();
-    } catch (IOException e) {
-        System.err.println("Error al cargar la ventana de edición de cliente: " + e.getMessage());
-    }
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Editar Cliente");
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("Error al cargar la ventana de edición de cliente: " + e.getMessage());
+        }
     }
 
     /**
@@ -676,44 +751,44 @@ public class PrimaryController implements Initializable {
                             loadClientesData();
                             //System.out.println("Cliente eliminado: " + ((Cliente) item).getNombre());
                         } else {
-                            mostrarAlerta("Error al eliminar", "No se pudo eliminar el cliente seleccionado.");
+                            Util.mostrarAlerta("Error al eliminar", "No se pudo eliminar el cliente seleccionado.");
                         }
                     } else if (item instanceof Poliza) {
                         PolizaDAO polizaDao = new PolizaDAO(connection);
                         boolean eliminado = polizaDao.deletePoliza(((Poliza) item).getIdPoliza());
                         if (eliminado) {
-                             loadClientesData();
+                            loadClientesData();
                             //System.out.println("Póliza eliminada: " + ((Poliza) item).getNumeroPoliza());
                         } else {
-                            mostrarAlerta("Error al eliminar", "No se pudo eliminar la póliza seleccionada.");
+                            Util.mostrarAlerta("Error al eliminar", "No se pudo eliminar la póliza seleccionada.");
                         }
                     } else if (item instanceof Siniestro) {
                         SiniestroDAO siniestroDao = new SiniestroDAO(connection);
                         boolean eliminado = siniestroDao.deleteSiniestro(((Siniestro) item).getIdSiniestro());
                         if (eliminado) {
-                             loadClientesData();
+                            loadClientesData();
                             //System.out.println("Siniestro eliminado: " + ((Siniestro) item).getNumSiniestro());
                         } else {
-                            mostrarAlerta("Error al eliminar", "No se pudo eliminar el siniestro seleccionado.");
+                            Util.mostrarAlerta("Error al eliminar", "No se pudo eliminar el siniestro seleccionado.");
                         }
                     } else if (item instanceof Recibo) {
                         ReciboDAO reciboDao = new ReciboDAO(connection);
                         boolean eliminado = reciboDao.deleteRecibo(((Recibo) item).getIdRecibo());
                         if (eliminado) {
-                             loadClientesData();
+                            loadClientesData();
                             //System.out.println("Recibo eliminado: " + ((Recibo) item).getNumRecibo());
                         } else {
-                            mostrarAlerta("Error al eliminar", "No se pudo eliminar el recibo seleccionado.");
+                            Util.mostrarAlerta("Error al eliminar", "No se pudo eliminar el recibo seleccionado.");
                         }
                     }
                 } catch (Exception e) {
-                    mostrarAlerta("Error de eliminación", "Error al eliminar el elemento: " + e.getMessage());
+                    Util.mostrarAlerta("Error de eliminación", "Error al eliminar el elemento: " + e.getMessage());
                 }
             } else {
-                mostrarAlerta("Selección inválida", "No hay elemento seleccionado para eliminar.");
+                Util.mostrarAlerta("Selección inválida", "No hay elemento seleccionado para eliminar.");
             }
         } else {
-            mostrarAlerta("Error", "No se pudo determinar la tabla activa.");
+            Util.mostrarAlerta("Error", "No se pudo determinar la tabla activa.");
         }
     }
 
@@ -727,10 +802,10 @@ public class PrimaryController implements Initializable {
             if (item != null) {
                 Util.generateReport(((Cliente) item).getIdCliente());
             } else {
-                mostrarAlerta("Selección inválida", "No hay elemento seleccionado para eliminar.");
+                Util.mostrarAlerta("Selección inválida", "No hay elemento seleccionado para eliminar.");
             }
         } else {
-            mostrarAlerta("Error", "No se pudo determinar la tabla activa.");
+            Util.mostrarAlerta("Error", "No se pudo determinar la tabla activa.");
         }
     }
 
@@ -750,20 +825,6 @@ public class PrimaryController implements Initializable {
             return reciboTable;
         }
         return null;
-    }
-
-    /**
-     * Muestra una alerta al usuario.
-     *
-     * @param titulo El título de la alerta.
-     * @param mensaje El mensaje de la alerta.
-     */
-    private void mostrarAlerta(String titulo, String mensaje) {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
     }
 
     @FXML
