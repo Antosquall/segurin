@@ -22,7 +22,7 @@ import net.sf.jasperreports.export.SimpleCsvExporterConfiguration;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import java.awt.Desktop;
-
+import javafx.scene.control.Alert;
 
 /**
  * Clase de utilidades para la aplicación.
@@ -141,46 +141,70 @@ public class Util {
     }
 
     public static void generateReport(int clienteId) {
-    try {
-        // Cargar el informe precompilado
-        InputStream inputStream = Util.class.getResourceAsStream("/informes/datosCliente.jasper");
-        JasperReport report = (JasperReport) JRLoader.loadObject(inputStream);
+        try {
+            // Cargar el informe precompilado
+            InputStream inputStream = Util.class.getResourceAsStream("/informes/datosCliente.jasper");
+            JasperReport report = (JasperReport) JRLoader.loadObject(inputStream);
 
-        // Parametros para el informe
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("ClienteID", clienteId);
+            // Parametros para el informe
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("ClienteID", clienteId);
 
-        // Conectar a la base de datos y llenar el informe
-        
-        //JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, ConexionMySQL.conectar());
-        JasperPrint print = JasperFillManager.fillReport(report, parameters, ConexionMySQL.conectar());
+            // Conectar a la base de datos y llenar el informe
+            //JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, ConexionMySQL.conectar());
+            JasperPrint print = JasperFillManager.fillReport(report, parameters, ConexionMySQL.conectar());
 
-        // Exportar a PDF
-        File pdfFile = new File("output_report.pdf");
-        JasperExportManager.exportReportToPdfFile(print, pdfFile.getAbsolutePath());
+            // Exportar a PDF
+            File pdfFile = new File("output_report.pdf");
+            JasperExportManager.exportReportToPdfFile(print, pdfFile.getAbsolutePath());
 
-        System.out.println("Reporte generado correctamente.");
+            System.out.println("Reporte generado correctamente.");
 
-        // Abrir el PDF con el software de PDF predeterminado del sistema
-        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.OPEN)) {
-            Desktop.getDesktop().open(pdfFile);
-        } else {
-            System.out.println("No se puede abrir el PDF automáticamente en este sistema.");
+            // Abrir el PDF con el software de PDF predeterminado del sistema
+            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.OPEN)) {
+                Desktop.getDesktop().open(pdfFile);
+            } else {
+                System.out.println("No se puede abrir el PDF automáticamente en este sistema.");
+            }
+        } catch (Exception ex) {
+            System.err.println("Error al generar o abrir el reporte: " + ex.getMessage());
+            System.err.println(ex.getMessage());
         }
-    } catch (Exception ex) {
-        System.err.println("Error al generar o abrir el reporte: " + ex.getMessage());
-        System.err.println(ex.getMessage());
     }
-}
-
-
+    
+    /**
+     * Muestra un mensaje de información.
+     *
+     * @param titulo El título del mensaje.
+     * @param contenido El contenido del mensaje.
+     */
+    public static void mostrarMensaje(String titulo, String contenido) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(contenido);
+        alert.showAndWait();
+    }
+    
+    /**
+     * Muestra un mensaje de error.
+     *
+     * @param titulo El título del mensaje de error.
+     * @param mensaje El contenido del mensaje de error.
+     */
+    public static void mostrarAlerta(String titulo, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+    
 
     private Connection getConnection() {
         // Implementar conexión a base de datos
         ConexionMySQL.conectar();
         return null;
     }
-    
-    
-    
+
 }
