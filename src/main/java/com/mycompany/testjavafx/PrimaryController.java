@@ -491,7 +491,8 @@ public class PrimaryController implements Initializable {
                 Stage newStage = new Stage();
                 newStage.setScene(scene);
                 newStage.setTitle("Crear nueva póliza");
-                newStage.show();
+                newStage.showAndWait();
+                reloadAllData();
 
             } catch (IOException e) {
                 System.err.println("Error al cargar la ventana de creación de póliza: " + e.getMessage());
@@ -527,7 +528,8 @@ public class PrimaryController implements Initializable {
                 Stage newStage = new Stage();
                 newStage.setScene(scene);
                 newStage.setTitle("Crear nuevo siniestro");
-                newStage.show();
+                newStage.showAndWait();
+                reloadAllData();
             } catch (IOException e) {
                 System.err.println("Error al cargar la ventana de creación de póliza: " + e.getMessage());
                 Alert alert = new Alert(AlertType.WARNING);
@@ -561,7 +563,8 @@ public class PrimaryController implements Initializable {
                 Stage newStage = new Stage();
                 newStage.setScene(scene);
                 newStage.setTitle("Crear nuevo recibo");
-                newStage.show();
+                newStage.showAndWait();
+                reloadAllData();
             } catch (IOException e) {
                 System.err.println("Error al cargar la ventana de creación de recibo: " + e.getMessage());
                 Alert alert = new Alert(AlertType.WARNING);
@@ -652,6 +655,7 @@ public class PrimaryController implements Initializable {
             } else {
                 Util.mostrarAlerta("Selección inválida", "Seleccione un elemento para editar.");
             }
+            reloadAllData();
         } else {
             Util.mostrarAlerta("Error", "No se pudo determinar la tabla activa.");
         }
@@ -675,7 +679,8 @@ public class PrimaryController implements Initializable {
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Editar Cliente");
-            stage.show();
+            stage.showAndWait();
+            reloadAllData();
         } catch (IOException e) {
             System.err.println("Error al cargar la ventana de edición de cliente: " + e.getMessage());
         }
@@ -696,7 +701,8 @@ public class PrimaryController implements Initializable {
         Stage stage = new Stage();
         stage.setTitle("Editar Póliza");
         stage.setScene(scene);
-        stage.show();
+        stage.showAndWait();
+        reloadAllData();
     }
 
     /**
@@ -714,7 +720,8 @@ public class PrimaryController implements Initializable {
         Stage stage = new Stage();
         stage.setTitle("Editar Siniestro");
         stage.setScene(scene);
-        stage.show();
+        stage.showAndWait();
+        reloadAllData();
     }
 
     /**
@@ -732,7 +739,8 @@ public class PrimaryController implements Initializable {
         Stage stage = new Stage();
         stage.setTitle("Editar Recibo");
         stage.setScene(scene);
-        stage.show();
+        stage.showAndWait();
+        reloadAllData();
     }
 
     /**
@@ -748,7 +756,8 @@ public class PrimaryController implements Initializable {
                         ClienteDAO clientedao = new ClienteDAO(connection);
                         boolean eliminado = clientedao.deleteCLiente(((Cliente) item).getIdCliente());
                         if (eliminado) {
-                            loadClientesData();
+                            //loadClientesData();
+                            reloadAllData();
                             //System.out.println("Cliente eliminado: " + ((Cliente) item).getNombre());
                         } else {
                             Util.mostrarAlerta("Error al eliminar", "No se pudo eliminar el cliente seleccionado.");
@@ -757,7 +766,8 @@ public class PrimaryController implements Initializable {
                         PolizaDAO polizaDao = new PolizaDAO(connection);
                         boolean eliminado = polizaDao.deletePoliza(((Poliza) item).getIdPoliza());
                         if (eliminado) {
-                            loadClientesData();
+                            //loadClientesData();
+                            reloadAllData();
                             //System.out.println("Póliza eliminada: " + ((Poliza) item).getNumeroPoliza());
                         } else {
                             Util.mostrarAlerta("Error al eliminar", "No se pudo eliminar la póliza seleccionada.");
@@ -766,7 +776,8 @@ public class PrimaryController implements Initializable {
                         SiniestroDAO siniestroDao = new SiniestroDAO(connection);
                         boolean eliminado = siniestroDao.deleteSiniestro(((Siniestro) item).getIdSiniestro());
                         if (eliminado) {
-                            loadClientesData();
+                            //loadClientesData();
+                            reloadAllData();
                             //System.out.println("Siniestro eliminado: " + ((Siniestro) item).getNumSiniestro());
                         } else {
                             Util.mostrarAlerta("Error al eliminar", "No se pudo eliminar el siniestro seleccionado.");
@@ -775,7 +786,8 @@ public class PrimaryController implements Initializable {
                         ReciboDAO reciboDao = new ReciboDAO(connection);
                         boolean eliminado = reciboDao.deleteRecibo(((Recibo) item).getIdRecibo());
                         if (eliminado) {
-                            loadClientesData();
+                            //loadClientesData();
+                            reloadAllData();
                             //System.out.println("Recibo eliminado: " + ((Recibo) item).getNumRecibo());
                         } else {
                             Util.mostrarAlerta("Error al eliminar", "No se pudo eliminar el recibo seleccionado.");
