@@ -1,0 +1,16 @@
+#AnchorPane {
+        -fx-background-radius: 30px;
+    -fx-border-radius: 30px;
+    -fx-background-color: lightblue;
+    -fx-border-width:5;
+ }
+
+.text-field-error {
+    -fx-border-color: red;
+    -fx-border-width: 2;
+}
+
+.combo-box-error{
+    -fx-border-color: red;
+    -fx-border-width: 2;
+}

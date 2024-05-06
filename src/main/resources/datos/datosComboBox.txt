@@ -1,0 +1,24 @@
+[generos]
+Masculino
+Femenino
+Otro
+
+[paises]
+España
+Estados Unidos
+Canadá
+México
+Argentina
+
+[estadocivil]
+Soltero/a
+Casado/a
+Divorciado/a
+Viudo/a
+Separado/a
+Unión libre
+
+[comercial]
+comercial 1
+comercial 2
+comercial 3

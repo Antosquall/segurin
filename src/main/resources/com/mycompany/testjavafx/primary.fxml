@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane style="-fx-border-color: black; -fx-border-width: 2px;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.testjavafx.PrimaryController">
+   <center>
+      <VBox prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: lightgray;">
+         <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+            <children>
+               <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                  <children>
+                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Clientes" HBox.hgrow="ALWAYS">
+                        <HBox.margin>
+                           <Insets right="30.0" />
+                        </HBox.margin>
+                     </Text>
+                     <TextField fx:id="filterField" />
+                  </children>
+                  <HBox.margin>
+                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  </HBox.margin>
+               </HBox>
+               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                  <children>
+                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Polizas" HBox.hgrow="ALWAYS" />
+                  </children>
+               </HBox>
+            </children>
+         </HBox>
+         <HBox VBox.vgrow="ALWAYS">
+            <children>
+                <TableView fx:id="clientesTable" fixedCellSize="0.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="400.0" prefWidth="327.0" HBox.hgrow="ALWAYS">
+                     <columns>
+                     <TableColumn fx:id="clmDNI" prefWidth="52.0" text="DNI" />
+           <TableColumn fx:id="clmNombre" prefWidth="94.0" text="Nombre" />
+           <TableColumn fx:id="clmApellido" text="Apellido" />
+           <TableColumn fx:id="clmTelefono" text="Teléfono" />
+           <TableColumn fx:id="clmMail" text="Correo electrónico" />
+       </columns>
+                  <opaqueInsets>
+                     <Insets />
+                  </opaqueInsets>
+                  <HBox.margin>
+                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  </HBox.margin>
+                  <columnResizePolicy>
+                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                  </columnResizePolicy>
+               </TableView>
+               <TableView fx:id="polizaTable" fixedCellSize="0.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="400.0" prefWidth="327.0" HBox.hgrow="ALWAYS">
+                  <columns>
+                     <TableColumn fx:id="clmNumPoliza" text="Num Poliza" />
+                     <TableColumn fx:id="clmVencimiento" text="Fecha vencimiento" />
+                     <TableColumn fx:id="clmCobertura" text="Cobertura" />
+                  </columns>
+                  <opaqueInsets>
+                     <Insets />
+                  </opaqueInsets>
+                  <HBox.margin>
+                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  </HBox.margin>
+               </TableView>
+            </children>
+            <VBox.margin>
+               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </VBox.margin>
+            <padding>
+               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </padding>
+         </HBox>
+         <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+            <children>
+               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                  <children>
+                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Siniestros" />
+                  </children>
+               </HBox>
+               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                  <children>
+                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Recibos" />
+                  </children>
+               </HBox>
+            </children>
+         </HBox>
+         <HBox VBox.vgrow="ALWAYS">
+            <VBox.margin>
+               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </VBox.margin>
+            <padding>
+               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </padding>
+            <children>
+               <TableView fx:id="siniestroTable" fixedCellSize="0.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="400.0" prefWidth="327.0" HBox.hgrow="ALWAYS">
+                  <columns>
+                     <TableColumn fx:id="clmSiniestro" prefWidth="52.0" text="Siniestro" />
+                     <TableColumn fx:id="clmFechaSiniestro" prefWidth="94.0" text="Fecha Siniestro" />
+                     <TableColumn fx:id="clmEstadoSiniestro" text="Estado Siniestro" />
+                  </columns>
+                  <opaqueInsets>
+                     <Insets />
+                  </opaqueInsets>
+                  <columnResizePolicy>
+                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                  </columnResizePolicy>
+                  <HBox.margin>
+                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  </HBox.margin>
+               </TableView>
+               <TableView fx:id="reciboTable" fixedCellSize="0.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="400.0" prefWidth="327.0" HBox.hgrow="ALWAYS">
+                  <columns>
+                     <TableColumn fx:id="clmRecibo" text="Recibo" />
+                     <TableColumn fx:id="clmFechaEmision" text="Fecha Emision" />
+                     <TableColumn fx:id="clmFechaVencimiento" text="Fecha_Vencimiento" />
+                     <TableColumn fx:id="clmTotal" text="Total" />
+                  </columns>
+                  <opaqueInsets>
+                     <Insets />
+                  </opaqueInsets>
+                  <HBox.margin>
+                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  </HBox.margin>
+               </TableView>
+            </children>
+         </HBox>
+         <padding>
+            <Insets bottom="20.0" left="10.0" right="10.0" top="20.0" />
+         </padding>
+      </VBox>
+   </center>
+   <bottom>
+      <AnchorPane BorderPane.alignment="CENTER">
+         <children>
+            <Text fx:id="textRol" textAlignment="RIGHT" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="10.0" />
+               <Text fx:id="textUser" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="5.0" />
+         </children>
+      </AnchorPane>
+   </bottom>
+   <top>
+      <VBox prefHeight="49.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <children>
+             <MenuBar fx:id="menuBar">
+                 <menus>
+                     <Menu text="Archivo">
+                         <items>
+                             <MenuItem text="Nuevo" />
+                             <MenuItem text="Abrir" />
+                             <MenuItem text="Guardar" />
+                             <MenuItem text="Cerrar" />
+                         </items>
+                     </Menu>
+                     <Menu text="Editar">
+                         <items>
+                             <MenuItem text="Cortar" />
+                             <MenuItem text="Copiar" />
+                             <MenuItem text="Pegar" />
+                         </items>
+                     </Menu>
+                     <Menu text="Ayuda">
+                         <items>
+                             <MenuItem text="Acerca de" />
+                         </items>
+                     </Menu>
+                 </menus>
+             </MenuBar>
+             <HBox alignment="TOP_CENTER" prefHeight="7.0" prefWidth="800.0" spacing="10" style="-fx-background-color: lightgray;">
+                 <Button fx:id="newClient" onAction="#handleNuevoCliente" text="NuevoCliente" />
+                 <Button fx:id="NewPoliza" onAction="#handleNuevaPoliza" text="Nueva Poliza" />
+                 <Button fx:id="btnNuevoSiniestro" onAction="#handleNuevoSiniestro" text="Nuevo Siniestro" />
+               <Button fx:id="btnNuevoRecibo" onAction="#handleNuevoRecibo" text="Nuevo Recibo" />
+               <Button mnemonicParsing="false" onAction="#handlePruebas" text="PRUEBAS" />
+             </HBox>
+         </children>
+      </VBox>
+   </top>
+</BorderPane>
