@@ -9,7 +9,8 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 
 /**
- * Clase que gestiona los menús de la aplicación, incluyendo menús contextuales y menús basados en roles.
+ * Clase que gestiona los menús de la aplicación, incluyendo menús contextuales
+ * y menús basados en roles.
  */
 public class MenuManager {
 
@@ -20,7 +21,6 @@ public class MenuManager {
      */
     public void menuComun(MenuBar menuBar) {
         Menu archivoMenu = new Menu("Archivo");
-        MenuItem nuevoMenuItem = new MenuItem("Nuevo");//Pendiente de desarrollo.
         MenuItem salirMenuItem = new MenuItem("Salir");
 
         Menu listadosMenu = new Menu("Listados");
@@ -30,7 +30,7 @@ public class MenuManager {
         MenuItem listarRecibosMenuItem = new MenuItem("Listar Recibos");
 
         archivoMenu.getItems().addAll(salirMenuItem);
-        listadosMenu.getItems().addAll(listarPolizasMenuItem, listarClientesMenuItem, 
+        listadosMenu.getItems().addAll(listarPolizasMenuItem, listarClientesMenuItem,
                 listarSiniestrosMenuItem, listarRecibosMenuItem);
 
         menuBar.getMenus().addAll(archivoMenu, listadosMenu);
@@ -39,69 +39,60 @@ public class MenuManager {
             FormObtenerListadoController obtenerListado = new FormObtenerListadoController();
             obtenerListado.mostrarVentanaPrincipal();
         });
-        
+
         listarPolizasMenuItem.setOnAction(event -> {
-            mostrarAlerta("Menu sin funcion.", "Pendiente de desarrollo.");
+            mostrarAlerta("Menu sin funcion.", "Pendiente de desarrollo. Usar menú Clientes");
         });
-        
+
         listarSiniestrosMenuItem.setOnAction(event -> {
-            mostrarAlerta("Menu sin funcion.", "Pendiente de desarrollo.");
+            mostrarAlerta("Menu sin funcion.", "Pendiente de desarrollo. Usar menú Clientes");
         });
-        
+
         listarRecibosMenuItem.setOnAction(event -> {
-            mostrarAlerta("Menu sin funcion.", "Pendiente de desarrollo.");
+            mostrarAlerta("Menu sin funcion.", "Pendiente de desarrollo. Usar menú Clientes");
         });
 
         salirMenuItem.setOnAction(event -> Platform.exit());
     }
 
     /**
-     * Construye menús específicos basados en el rol del usuario y los añade al {@link MenuBar} proporcionado.
+     * Construye menús específicos basados en el rol del usuario y los añade al
+     * {@link MenuBar} proporcionado.
      *
      * @param menuBar El {@link MenuBar} al que se agregarán los menús.
-     * @param rolUsuario El rol del usuario que determina qué menús se deben mostrar.
      */
-    public void construirMenus(MenuBar menuBar, String rolUsuario) {
+    public void construirMenus(MenuBar menuBar, String rol) {
         menuBar.getMenus().clear();
         menuComun(menuBar);
+        Menu usuarioMenu = new Menu("Usuario");
+        MenuItem configuracionItem = new MenuItem("Configuración");
 
-        if ("administrador".equals(rolUsuario)) {
+        if ("administrador".equals(rol)) {
             Menu administradorMenu = new Menu("Administrar");
             MenuItem usuariosItem = new MenuItem("Usuarios");
-            MenuItem configuracionItem = new MenuItem("Configuración");
+            administradorMenu.getItems().addAll(usuariosItem);
+            menuBar.getMenus().add(administradorMenu);
 
             usuariosItem.setOnAction(event -> {
-                FormUsuariosController obtenerusuario = new FormUsuariosController();
-                obtenerusuario.mostrarVentanaPrincipal();
-            });
-            
-            configuracionItem.setOnAction(event -> {
-                mostrarAlerta("Menu sin funcion.", "Pendiente de desarrollo.");
-            });
-            
-            
-            
+                // Lógica para administrar usuarios
+                FormUsuariosController controller = new FormUsuariosController();
+                controller.mostrarVentanaPrincipal();
 
-            administradorMenu.getItems().addAll(usuariosItem, configuracionItem);
-            menuBar.getMenus().add(administradorMenu);
-        } else if ("pdtDesarrllo".equals(rolUsuario)) { //usuario. Pendiente de desarrllo
-            Menu usuarioMenu = new Menu("Opciones");
-            MenuItem perfilItem = new MenuItem("Perfil");
-            MenuItem configuracionItem = new MenuItem("Configuración");
-
-            perfilItem.setOnAction(event -> {
-                // Lógica para ver perfil...
-            });
-            configuracionItem.setOnAction(event -> {
-                // Lógica para configuración...
             });
 
-            usuarioMenu.getItems().addAll(perfilItem, configuracionItem);
-            menuBar.getMenus().add(usuarioMenu);
+
         }
+
+        configuracionItem.setOnAction(event -> {
+            mostrarAlerta("Configuración", "Ventana de configuración.");
+        });
+        usuarioMenu.getItems().addAll(configuracionItem);
+        menuBar.getMenus().add(usuarioMenu);
+
+        // Menús adicionales para otros roles pueden ser añadidos aquí
     }
-    
-        private void mostrarAlerta(String titulo, String mensaje) {
+
+    private void mostrarAlerta(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(titulo);
         alert.setHeaderText(null);
