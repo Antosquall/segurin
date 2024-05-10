@@ -14,7 +14,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -108,12 +107,13 @@ public class FormPolizaController implements Initializable {
                     poliza.setIdPoliza(polizaDao.getNextID());
                     polizaDao.addPoliza(poliza);
                 }
-                mostrarMensaje("Operación Exitosa", "La póliza ha sido guardada correctamente.");
+                Util.mostrarMensaje("Operación Exitosa", "La póliza ha sido guardada correctamente.");
+                handleCancelar(event);
             } catch (SQLException ex) {
-                mostrarMensajeDeError("Error de Base de Datos", "No se pudo guardar la póliza. " + ex.getMessage());
+                Util.mostrarAlerta("Error de Base de Datos", "No se pudo guardar la póliza. " + ex.getMessage());
             }
         } else {
-            mostrarMensajeDeError("Error de Validación", "Por favor, corrija los campos marcados en rojo.");
+            Util.mostrarAlerta("Error de Validación", "Por favor, corrija los campos marcados en rojo.");
         }
     }
 
@@ -190,31 +190,4 @@ public class FormPolizaController implements Initializable {
         stage.close();
     }
 
-    /**
-     * Muestra un mensaje genérico en un cuadro de diálogo.
-     *
-     * @param titulo El título del cuadro de diálogo.
-     * @param mensaje El mensaje a mostrar.
-     */
-    private void mostrarMensaje(String titulo, String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
-    }
-
-    /**
-     * Muestra un mensaje de error en un cuadro de diálogo.
-     *
-     * @param titulo El título del cuadro de diálogo.
-     * @param mensaje El mensaje de error a mostrar.
-     */
-    private void mostrarMensajeDeError(String titulo, String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
-    }
 }

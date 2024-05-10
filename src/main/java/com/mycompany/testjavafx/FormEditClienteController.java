@@ -14,11 +14,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -94,11 +91,11 @@ public class FormEditClienteController implements Initializable {
             if (cliente != null) {
                 cargarDatosCliente(cliente);
             } else {
-                mostrarError("Error de Carga", "No se encontró el cliente");
+                Util.mostrarAlerta("Error de Carga", "No se encontró el cliente");
             }
         } catch (SQLException ex) {
             Logger.getLogger(FormEditClienteController.class.getName()).log(Level.SEVERE, null, ex);
-            mostrarError("Error al cargar los datos del cliente", "No se pudo cargar la información del cliente.");
+            Util.mostrarAlerta("Error al cargar los datos del cliente", "No se pudo cargar la información del cliente.");
         }
     }
 
@@ -143,20 +140,6 @@ public class FormEditClienteController implements Initializable {
     }
 
     /**
-     * Muestra un mensaje de error.
-     *
-     * @param titulo El título del mensaje de error.
-     * @param contenido El contenido del mensaje de error.
-     */
-    private void mostrarError(String titulo, String contenido) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(contenido);
-        alert.showAndWait();
-    }
-
-    /**
      * Maneja el evento de edición del cliente, actualizando sus datos en la
      * base de datos.
      *
@@ -167,32 +150,34 @@ public class FormEditClienteController implements Initializable {
         if (validarDatosCliente()) {
             actualizarDatosCliente();
             if (clienteDAO.updateCliente(cliente)) {
-                mostrarMensaje("Éxito", "Cliente actualizado correctamente.");
+                Util.mostrarMensaje("Éxito", "Cliente actualizado correctamente.");
+                handleCancelar(event);
             } else {
-                mostrarError("Error de actualización", "No se pudo actualizar el cliente en la base de datos.");
+                Util.mostrarAlerta("Error de actualización", "No se pudo actualizar el cliente en la base de datos.");
             }
         } else {
-            mostrarError("Datos inválidos", "Por favor, revise los campos y asegúrese de que todos los datos son correctos.");
+            Util.mostrarAlerta("Datos inválidos", "Por favor, revise los campos y asegúrese de que todos los datos son correctos.");
         }
     }
-    
+
     /**
- * Valida que los campos del formulario no estén vacíos y cumplan con los requisitos necesarios.
- *
- * @return true si todos los datos son válidos, false en caso contrario.
- */
-private boolean validarDatosCliente() {
-    if (txtNombre.getText().trim().isEmpty() ||
-        txtApellido.getText().trim().isEmpty() ||
-        txtDireccion.getText().trim().isEmpty() ||
-        txtTelefono.getText().trim().isEmpty() ||
-        txtMail.getText().trim().isEmpty() ||
-        txtDNI.getText().trim().isEmpty() ||
-        dtFecNacimiento.getValue() == null) {
-        return false; // Retorna false si alguno de los campos es vacío o la fecha de nacimiento no está establecida.
+     * Valida que los campos del formulario no estén vacíos y cumplan con los
+     * requisitos necesarios.
+     *
+     * @return true si todos los datos son válidos, false en caso contrario.
+     */
+    private boolean validarDatosCliente() {
+        if (txtNombre.getText().trim().isEmpty()
+                || txtApellido.getText().trim().isEmpty()
+                || txtDireccion.getText().trim().isEmpty()
+                || txtTelefono.getText().trim().isEmpty()
+                || txtMail.getText().trim().isEmpty()
+                || txtDNI.getText().trim().isEmpty()
+                || dtFecNacimiento.getValue() == null) {
+            return false; // Retorna false si alguno de los campos es vacío o la fecha de nacimiento no está establecida.
+        }
+        return true;
     }
-    return true;
-}
 
     /**
      * Actualiza los datos del cliente desde los campos de formulario.

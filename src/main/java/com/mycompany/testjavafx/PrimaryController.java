@@ -37,13 +37,10 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 
 /**
@@ -111,7 +108,9 @@ public class PrimaryController implements Initializable {
         setupTableListeners();
 
     }
-
+    
+    
+    
     /**
      * Configura las tablas de la interfaz de usuario.
      */

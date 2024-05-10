@@ -27,7 +27,7 @@
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Numero de poliza:" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Número de póliza:" />
                   <TextField fx:id="txtNumPoliza" />
                </children>
             </HBox>
@@ -35,13 +35,13 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha_Emision" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha emisión" />
                         <DatePicker fx:id="dtFechaEmision" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha_Vencimineto" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha vencimiento" />
                         <DatePicker fx:id="dtFechaVencimiento" />
                      </children>
                   </HBox>
@@ -49,13 +49,13 @@
             </VBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo_Cobertura" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo cobertura" />
                   <TextField fx:id="txtTipoCobertura" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cobertura_Adicional" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cobertura adicional" />
                   <TextField fx:id="txtCoberturaAdicional" />
                </children>
             </HBox>

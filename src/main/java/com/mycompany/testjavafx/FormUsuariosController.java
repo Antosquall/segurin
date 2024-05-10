@@ -3,6 +3,7 @@ package com.mycompany.testjavafx;
 import com.mycompany.model.Usuario;
 import com.mycompany.persistance.UsuarioDAO;
 import com.mycompany.util.SecurePassword;
+import com.mycompany.util.Util;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -17,7 +18,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -65,14 +65,14 @@ public class FormUsuariosController implements Initializable {
             clmRol.setCellValueFactory(new PropertyValueFactory<>("rol"));
         } catch (SQLException ex) {
             Logger.getLogger(FormUsuariosController.class.getName()).log(Level.SEVERE, null, ex);
-            mostrarAlerta("Error de Conexión", "No se pudo cargar la información de los usuarios.");
+            Util.mostrarAlerta("Error de Conexión", "No se pudo cargar la información de los usuarios.");
         }
     }
 
     @FXML
     private void handleNuevoUsuario(ActionEvent event) {
         if (txtUsuario.getText().isEmpty() || txtPassword.getText().isEmpty() || groupRol.getSelectedToggle() == null) {
-            mostrarAlerta("Datos Incompletos", "Todos los campos son obligatorios.");
+            Util.mostrarAlerta("Datos Incompletos", "Todos los campos son obligatorios.");
             return;
         }
         crearUsuario();
@@ -85,17 +85,17 @@ public class FormUsuariosController implements Initializable {
             usuarioDAO.createUsuario(usuario);
             cargarTabla();
             limpiarFormulario();
-            mostrarMensaje("Éxito", "Usuario creado correctamente.");
+            Util.mostrarMensaje("Éxito", "Usuario creado correctamente.");
         } catch (SQLException ex) {
             Logger.getLogger(FormUsuariosController.class.getName()).log(Level.SEVERE, null, ex);
-            mostrarAlerta("Error al Crear", "No se pudo crear el usuario.");
+            Util.mostrarAlerta("Error al Crear", "No se pudo crear el usuario.");
         }
     }
 
     @FXML
     private void handleModificarUsuario(ActionEvent event) {
         if (usuarioSeleccionado == null || txtPassword.getText().isEmpty() || groupRol.getSelectedToggle() == null) {
-            mostrarAlerta("Datos Incompletos", "Debe seleccionar un usuario y completar todos los campos necesarios.");
+            Util.mostrarAlerta("Datos Incompletos", "Debe seleccionar un usuario y completar todos los campos necesarios.");
             return;
         }
         actualizarUsuario();
@@ -109,17 +109,17 @@ public class FormUsuariosController implements Initializable {
             usuarioDAO.actualizarUsuario(usuarioSeleccionado);
             cargarTabla();
             limpiarFormulario();
-            mostrarMensaje("Éxito", "Usuario actualizado correctamente.");
+            Util.mostrarMensaje("Éxito", "Usuario actualizado correctamente.");
         } catch (SQLException ex) {
             Logger.getLogger(FormUsuariosController.class.getName()).log(Level.SEVERE, null, ex);
-            mostrarAlerta("Error al Actualizar", "No se pudo actualizar el usuario.");
+            Util.mostrarAlerta("Error al Actualizar", "No se pudo actualizar el usuario.");
         }
     }
 
     @FXML
     private void handleEliminarUsuario(ActionEvent event) {
         if (usuarioSeleccionado == null) {
-            mostrarAlerta("Sin Selección", "Seleccione un usuario para eliminar.");
+            Util.mostrarAlerta("Sin Selección", "Seleccione un usuario para eliminar.");
             return;
         }
         eliminarUsuario();
@@ -131,10 +131,10 @@ public class FormUsuariosController implements Initializable {
             usuarioDAO.eliminarUsuario(usuarioSeleccionado.getId());
             cargarTabla();
             limpiarFormulario();
-            mostrarMensaje("Éxito", "Usuario eliminado correctamente.");
+            Util.mostrarMensaje("Éxito", "Usuario eliminado correctamente.");
         } catch (SQLException ex) {
             Logger.getLogger(FormUsuariosController.class.getName()).log(Level.SEVERE, null, ex);
-            mostrarAlerta("Error al Eliminar", "No se pudo eliminar el usuario seleccionado.");
+            Util.mostrarAlerta("Error al Eliminar", "No se pudo eliminar el usuario seleccionado.");
         }
     }
 
@@ -152,21 +152,6 @@ public class FormUsuariosController implements Initializable {
         return selectedRadioButton != null ? selectedRadioButton.getText() : "";
     }
 
-    private void mostrarAlerta(String titulo, String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
-    }
-
-    private void mostrarMensaje(String titulo, String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
-    }
 
     public void mostrarVentanaPrincipal() {
         try {

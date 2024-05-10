@@ -1,23 +1,16 @@
 package com.mycompany.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
 /**
  * Clase que representa un usuario en el sistema.
  * Esta clase se mapea a una tabla en la base de datos utilizando JPA.
  */
-@Entity
+
 public class Usuario {
 
     /**
      * Identificador único del usuario.
      * Se genera automáticamente por la base de datos.
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     /**

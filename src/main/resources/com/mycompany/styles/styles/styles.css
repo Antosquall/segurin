@@ -14,3 +14,13 @@
     -fx-border-color: red;
     -fx-border-width: 2;
 }
+
+.border-pane-dark {
+    -fx-background-color: #333333; /* Color de fondo oscuro */
+    -fx-text-fill: #ffffff;        /* Color del texto claro */
+}
+
+.border-pane-light {
+    -fx-background-color: #ffffff; /* Color de fondo claro */
+    -fx-text-fill: #000000;        /* Color del texto oscuro */
+}

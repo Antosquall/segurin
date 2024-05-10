@@ -12,11 +12,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 /**
@@ -34,6 +33,17 @@ public class LoginController {
     private UsuarioDAO usuarioDAO;
     private Usuario usuario;
 
+     @FXML
+    public void initialize() {
+        // Configura el TextField para responder a la tecla Enter
+        contrasenaField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                iniciarSesion();
+            }
+        });
+    }
+    
+    
     /**
      * Intenta iniciar sesión utilizando las credenciales proporcionadas en los
      * campos de texto. Si la autenticación es exitosa, cambia a la ventana
@@ -46,7 +56,7 @@ public class LoginController {
         String password = contrasenaField.getText();
 
         if (Util.verificarInyeccionSQL(nombreUsuario) || Util.verificarInyeccionSQL(password)) {
-            mostrarAlerta("Error de Seguridad", "Detectado intento de inyección SQL.");
+            Util.mostrarAlerta("Error de Seguridad", "Detectado intento de inyección SQL.");
             return;
         }
 
@@ -59,39 +69,30 @@ public class LoginController {
                 cerrarVentanaActual();
                 abrirVentanaPrincipal();
             } else {
-                mostrarAlerta("Error de Login", "Inicio de sesión fallido.");
+                Util.mostrarAlerta("Error de Login", "Inicio de sesión fallido.");
             }
         } catch (SQLException | IOException ex) {
-            mostrarAlerta("Error al iniciar sesión", "No se pudo iniciar sesión debido a un error: " + ex.getMessage());
+            Util.mostrarAlerta("Error al iniciar sesión", "No se pudo iniciar sesión debido a un error: " + ex.getMessage());
         }
     }
-    
-     private void abrirVentanaPrincipal() throws IOException {
+
+    private void abrirVentanaPrincipal() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("primary.fxml"));
         Parent root = loader.load();
         PrimaryController primaryController = loader.getController();
-        primaryController.initData(usuario);  // Paso el usuario al controlador
+        primaryController.initData(usuario); 
 
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
         stage.setTitle("Sistema de Gestión");
+        stage.setMaxWidth(1920);
+        stage.setMinWidth(1024);
+        stage.setHeight(1600);
+        stage.setMaxHeight(1080);
+        stage.setMinHeight(768);
+        stage.setHeight(900);
+        
         stage.show();
-    }
-
-
-
-    /**
-     * Muestra una ventana de alerta con un mensaje específico.
-     *
-     * @param titulo El título de la ventana de alerta.
-     * @param mensaje El mensaje que se mostrará en la ventana de alerta.
-     */
-    private void mostrarAlerta(String titulo, String mensaje) {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
     }
 
     /**
@@ -101,32 +102,6 @@ public class LoginController {
         Stage stage = (Stage) usuarioField.getScene().getWindow();
         stage.close();
     }
-
-//    /**
-//     * Abre la ventana principal de la aplicación.
-//     *
-//     * @throws IOException Si hay un error al cargar el recurso FXML para la
-//     * ventana principal.
-//     */
-//    private void abrirVentanaPrincipal() throws IOException {
-//    // Cargar primero el FXML y asegurarse de que todos los componentes están listos.
-//    FXMLLoader loader = new FXMLLoader(getClass().getResource("primary.fxml"));
-//    Parent root = loader.load();  // Esta llamada asegura que todos los @FXML estén cargados.
-//
-//    // Obtener el controlador y pasar los datos necesarios.
-//    PrimaryController primaryController = loader.getController();
-//    primaryController.initData(usuario);  // Ahora es seguro llamar a initData.
-//
-//    // Configurar y mostrar la ventana.
-//    Stage stage = new Stage();
-//    stage.setMinWidth(1280);
-//    stage.setMinHeight(900);
-//    stage.setMaxWidth(1280);
-//    stage.setMaxHeight(900);
-//    stage.setScene(new Scene(root));
-//    stage.show();
-//}
-
 
     /**
      * Maneja la acción del botón salir, cerrando la aplicación.

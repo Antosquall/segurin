@@ -34,7 +34,7 @@
                </HBox>
                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                   <children>
-                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Polizas" HBox.hgrow="ALWAYS" />
+                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pólizas" HBox.hgrow="ALWAYS" />
                   </children>
                </HBox>
             </children>
@@ -61,7 +61,7 @@
                </TableView>
                <TableView fx:id="polizaTable" fixedCellSize="0.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="400.0" prefWidth="327.0" HBox.hgrow="ALWAYS">
                   <columns>
-                     <TableColumn fx:id="clmNumPoliza" text="Num Poliza" />
+                     <TableColumn fx:id="clmNumPoliza" text="Núm póliza" />
                      <TableColumn fx:id="clmVencimiento" text="Fecha vencimiento" />
                      <TableColumn fx:id="clmCobertura" text="Cobertura" />
                   </columns>
@@ -105,8 +105,8 @@
                <TableView fx:id="siniestroTable" fixedCellSize="0.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="400.0" prefWidth="327.0" HBox.hgrow="ALWAYS">
                   <columns>
                      <TableColumn fx:id="clmSiniestro" prefWidth="52.0" text="Siniestro" />
-                     <TableColumn fx:id="clmFechaSiniestro" prefWidth="94.0" text="Fecha Siniestro" />
-                     <TableColumn fx:id="clmEstadoSiniestro" text="Estado Siniestro" />
+                     <TableColumn fx:id="clmFechaSiniestro" prefWidth="94.0" text="Fecha siniestro" />
+                     <TableColumn fx:id="clmEstadoSiniestro" text="Estado siniestro" />
                   </columns>
                   <opaqueInsets>
                      <Insets />
@@ -121,8 +121,8 @@
                <TableView fx:id="reciboTable" fixedCellSize="0.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="400.0" prefWidth="327.0" HBox.hgrow="ALWAYS">
                   <columns>
                      <TableColumn fx:id="clmRecibo" text="Recibo" />
-                     <TableColumn fx:id="clmFechaEmision" text="Fecha Emision" />
-                     <TableColumn fx:id="clmFechaVencimiento" text="Fecha_Vencimiento" />
+                     <TableColumn fx:id="clmFechaEmision" text="Fecha emision" />
+                     <TableColumn fx:id="clmFechaVencimiento" text="Fecha vencimiento" />
                      <TableColumn fx:id="clmTotal" text="Total" />
                   </columns>
                   <opaqueInsets>
@@ -175,8 +175,8 @@
                  </menus>
              </MenuBar>
              <HBox alignment="TOP_CENTER" prefHeight="7.0" prefWidth="800.0" spacing="10" style="-fx-background-color: lightgray;">
-                 <Button fx:id="newClient" onAction="#handleNuevoCliente" text="NuevoCliente" />
-                 <Button fx:id="NewPoliza" onAction="#handleNuevaPoliza" text="Nueva Poliza" />
+                 <Button fx:id="newClient" onAction="#handleNuevoCliente" text="Nuevo Cliente" />
+                 <Button fx:id="NewPoliza" onAction="#handleNuevaPoliza" text="Nueva Póliza" />
                  <Button fx:id="btnNuevoSiniestro" onAction="#handleNuevoSiniestro" text="Nuevo Siniestro" />
                <Button fx:id="btnNuevoRecibo" onAction="#handleNuevoRecibo" text="Nuevo Recibo" />
                <Button mnemonicParsing="false" onAction="#handlePruebas" text="PRUEBAS" />

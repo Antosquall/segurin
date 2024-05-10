@@ -2,6 +2,7 @@ package com.mycompany.persistance;
 
 import com.mycompany.model.Cliente;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -178,30 +179,34 @@ public class ClienteDAO {
      * @return el objeto Cliente correspondiente a los datos obtenidos.
      * @throws SQLException si ocurre un error al procesar el resultado de la consulta.
      */
-    private Cliente mapResultSetToCliente(ResultSet resultSet) throws SQLException {
-        Cliente cliente = new Cliente();
-        cliente.setIdCliente(resultSet.getInt("ID_Cliente"));
-        cliente.setDNI(resultSet.getString("DNI"));
-        cliente.setNombre(resultSet.getString("Nombre"));
-        cliente.setApellido(resultSet.getString("Apellido"));
-        cliente.setDireccion(resultSet.getString("Direccion"));
-        cliente.setTelefono(resultSet.getString("Telefono"));
-        cliente.setMail(resultSet.getString("Mail"));
-        cliente.setFechaNacimiento(resultSet.getDate("Fec_Nacimiento").toLocalDate());
-        cliente.setGenero(resultSet.getString("Genero"));
-        cliente.setTotalPolizas(resultSet.getInt("Total_Polizas"));
-        cliente.setBonificacion(resultSet.getInt("Bonificacion"));
-        cliente.setEstadoCivil(resultSet.getString("Estado_civil"));
-        cliente.setNumParientes(resultSet.getInt("Num_Parientes"));
-        cliente.setProfesion(resultSet.getString("Profesion"));
-        cliente.setEstudios(resultSet.getString("Estudios"));
-        cliente.setIngresosAnuales(resultSet.getInt("Ingresos_Anuales"));
-        cliente.setFechaRegistro(resultSet.getDate("Fecha_Registro").toLocalDate());
-        cliente.setFechaBaja(resultSet.getDate("Fecha_Baja") != null ? resultSet.getDate("Fecha_Baja").toLocalDate() : null);
-        cliente.setObservaciones(resultSet.getString("Observaciones"));
-        cliente.setNacionalidad(resultSet.getString("Nacionalidad"));
-        cliente.setReferido(resultSet.getString("Referido"));
-        cliente.setVip(resultSet.getString("Vip"));
-        return cliente;
-    }
+   private Cliente mapResultSetToCliente(ResultSet resultSet) throws SQLException {
+    Cliente cliente = new Cliente();
+    cliente.setIdCliente(resultSet.getInt("ID_Cliente"));
+    cliente.setDNI(resultSet.getString("DNI"));
+    cliente.setNombre(resultSet.getString("Nombre"));
+    cliente.setApellido(resultSet.getString("Apellido"));
+    cliente.setDireccion(resultSet.getString("Direccion"));
+    cliente.setTelefono(resultSet.getString("Telefono"));
+    cliente.setMail(resultSet.getString("Mail"));
+    Date fechaNacimiento = resultSet.getDate("Fec_Nacimiento");
+    cliente.setFechaNacimiento(fechaNacimiento != null ? fechaNacimiento.toLocalDate() : null);
+    cliente.setGenero(resultSet.getString("Genero"));
+    cliente.setTotalPolizas(resultSet.getInt("Total_Polizas"));
+    cliente.setBonificacion(resultSet.getInt("Bonificacion"));
+    cliente.setEstadoCivil(resultSet.getString("Estado_civil"));
+    cliente.setNumParientes(resultSet.getInt("Num_Parientes"));
+    cliente.setProfesion(resultSet.getString("Profesion"));
+    cliente.setEstudios(resultSet.getString("Estudios"));
+    cliente.setIngresosAnuales(resultSet.getInt("Ingresos_Anuales"));
+    Date fechaRegistro = resultSet.getDate("Fecha_Registro");
+    cliente.setFechaRegistro(fechaRegistro != null ? fechaRegistro.toLocalDate() : null);
+    Date fechaBaja = resultSet.getDate("Fecha_Baja");
+    cliente.setFechaBaja(fechaBaja != null ? fechaBaja.toLocalDate() : null);
+    cliente.setObservaciones(resultSet.getString("Observaciones"));
+    cliente.setNacionalidad(resultSet.getString("Nacionalidad"));
+    cliente.setReferido(resultSet.getString("Referido"));
+    cliente.setVip(resultSet.getString("Vip"));
+    return cliente;
+}
+
 }

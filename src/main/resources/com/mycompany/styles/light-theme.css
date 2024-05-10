@@ -1,0 +1,96 @@
+/* General Styles */
+body {
+    -fx-background-color: #f8f9fa; /* Light gray background */
+    -fx-text-fill: #333; /* Dark gray text */
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+/* Menus and Buttons */
+.menu-bar {
+    -fx-background-color: #e0e0e0; /* Light gray menu bar */
+    -fx-text-fill: #333; /* Dark gray text */
+}
+
+.menu-item {
+    -fx-background-color: #fff; /* White menu items */
+    -fx-text-fill: #333; /* Dark gray text */
+    -fx-padding: 10px 20px;
+}
+
+.menu-item:hover {
+    -fx-background-color: #e0e0e0; /* Light gray hover effect */
+}
+
+.button {
+    -fx-background-color: #4CAF50; /* Green button */
+    -fx-text-fill: #fff; /* White text */
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+}
+
+.button:hover {
+    -fx-background-color: #45a049; /* Darker green hover effect */
+}
+
+/* Forms and Input Fields */
+.form {
+    -fx-background-color: #fff; /* White background for forms */
+    -fx-padding: 20px;
+}
+
+.label {
+    -fx-text-fill: #333; /* Dark gray text for labels */
+}
+
+.input-field {
+    -fx-background-color: #fff; /* White background for input fields */
+    -fx-border: 1px solid #ccc; /* Light gray border */
+    -fx-padding: 5px;
+    -fx-border-radius: 5px;
+}
+
+.input-field:focus {
+    -fx-border-color: #4CAF50; /* Green border on focus */
+}
+
+/* Tables */
+.table-view {
+    -fx-background-color: #fff; /* White background for tables */
+}
+
+.table-view .table-column {
+    -fx-background-color: #e0e0e0; /* Light gray table headers */
+    -fx-text-fill: #333; /* Dark gray text for headers */
+}
+
+.table-view .table-row {
+    -fx-background-color: #f8f9fa; /* Light gray table rows */
+    -fx-text-fill: #333; /* Dark gray text for rows */
+}
+
+/* Scrollbars */
+.scroll-bar {
+    -fx-background-color: #e0e0e0; /* Light gray scrollbar track */
+    -fx-thumb-background-color: #4CAF50; /* Green scrollbar thumb */
+}
+
+/* Additional Styles */
+.title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333; /* Dark gray text for titles */
+}
+
+.subtitle {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #666; /* Lighter gray text for subtitles */
+}
+
+.error {
+    -fx-text-fill: #c9302c; /* Red text for error messages */
+}
+
+.success {
+    -fx-text-fill: #28a745; /* Green text for success messages */
+}

@@ -6,7 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Clase que gestiona las operaciones de base de datos para objetos de tipo Poliza.
+ * Clase que gestiona las operaciones de base de datos para objetos de tipo
+ * Poliza.
  */
 public class PolizaDAO {
 
@@ -14,6 +15,7 @@ public class PolizaDAO {
 
     /**
      * Constructor que inicializa una conexión a la base de datos.
+     *
      * @param connection La conexión a la base de datos.
      */
     public PolizaDAO(Connection connection) {
@@ -22,6 +24,7 @@ public class PolizaDAO {
 
     /**
      * Agrega una nueva póliza a la base de datos.
+     *
      * @param poliza La póliza a agregar.
      * @return true si la póliza se agregó correctamente, false de lo contrario.
      */
@@ -41,7 +44,7 @@ public class PolizaDAO {
 
             int affectedRows = stmt.executeUpdate();
             return affectedRows > 0;
-          
+
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             return false;
@@ -50,6 +53,7 @@ public class PolizaDAO {
 
     /**
      * Recupera una póliza por su ID.
+     *
      * @param id El identificador de la póliza.
      * @return La póliza si se encuentra, null de lo contrario.
      */
@@ -69,6 +73,7 @@ public class PolizaDAO {
 
     /**
      * Recupera todas las pólizas asociadas a un cliente específico.
+     *
      * @param id El ID del cliente.
      * @return Una lista de pólizas.
      * @throws SQLException Si ocurre un error de SQL.
@@ -90,24 +95,25 @@ public class PolizaDAO {
 
     /**
      * Obtiene todas las pólizas de la base de datos.
+     *
      * @return Una lista de objetos Poliza.
      * @throws SQLException Si ocurre un error de acceso a la base de datos.
      */
     public List<Poliza> getAllPolizas() throws SQLException {
         List<Poliza> polizas = new ArrayList<>();
-        String query = "SELECT idPoliza, numeroPoliza, fechaVencimiento, tipoCobertura FROM Polizas";
+        String query = "SELECT * FROM Polizas";
         try (PreparedStatement statement = connection.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 Poliza poliza = mapResultSetToPoliza(resultSet);
                 polizas.add(poliza);
-
             }
         }
         return polizas;
     }
-    
+
     /**
      * Actualiza una póliza existente en la base de datos.
+     *
      * @param poliza La póliza con los datos actualizados.
      * @return true si la actualización fue exitosa, false de lo contrario.
      */
@@ -132,8 +138,10 @@ public class PolizaDAO {
 
     /**
      * Elimina una póliza de la base de datos por su ID.
+     *
      * @param id El identificador de la póliza a eliminar.
-     * @return true si la póliza fue eliminada correctamente, false de lo contrario.
+     * @return true si la póliza fue eliminada correctamente, false de lo
+     * contrario.
      */
     public boolean deletePoliza(int id) {
         String query = "DELETE FROM polizas WHERE ID_Poliza = ?";
@@ -149,6 +157,7 @@ public class PolizaDAO {
 
     /**
      * Extrae una póliza de un ResultSet.
+     *
      * @param rs El ResultSet de donde extraer la póliza.
      * @return La póliza extraída.
      * @throws SQLException Si ocurre un error al acceder al ResultSet.
@@ -185,6 +194,7 @@ public class PolizaDAO {
 
     /**
      * Calcula el siguiente ID disponible para una nueva póliza.
+     *
      * @return El siguiente ID disponible.
      * @throws SQLException Si ocurre un error durante la consulta SQL.
      */

@@ -6,6 +6,7 @@ package com.mycompany.testjavafx;
 
 import com.mycompany.model.Recibo;
 import com.mycompany.persistance.ReciboDAO;
+import com.mycompany.util.Util;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -84,24 +85,26 @@ public class FormReciboController implements Initializable {
                 if (isEditMode) {
                     // Actualizar el recibo existente
                     if (reciboDao.actualizarRecibo(recibo)) {
-                        mostrarMensaje("Operación Exitosa", "Recibo actualizado.");
+                        Util.mostrarMensaje("Operación Exitosa", "Recibo actualizado.");
+                        handleCancelar(event);
                     } else {
-                        mostrarMensajeDeError("Error al actualizar", "No se pudo actualizar el recibo.");
+                        Util.mostrarAlerta("Error al actualizar", "No se pudo actualizar el recibo.");
                     }
                 } else {
                     // Crear un nuevo recibo
                     if (reciboDao.insertRecibo(recibo)) {
-                        mostrarMensaje("Operación Exitosa", "Recibo creado.");
+                        Util.mostrarMensaje("Operación Exitosa", "Recibo creado.");
+                        handleCancelar(event);
                     } else {
-                        mostrarMensajeDeError("Error al crear", "No se pudo crear el recibo.");
+                        Util.mostrarAlerta("Error al crear", "No se pudo crear el recibo.");
                     }
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(FormReciboController.class.getName()).log(Level.SEVERE, null, ex);
-                mostrarMensajeDeError("Error de base de datos", "Error al intentar guardar el recibo: " + ex.getMessage());
+                Util.mostrarAlerta("Error de base de datos", "Error al intentar guardar el recibo: " + ex.getMessage());
             }
         } else {
-            mostrarMensajeDeError("Error de Validación", "Por favor, corrija los campos marcados en rojo.");
+            Util.mostrarAlerta("Error de Validación", "Por favor, corrija los campos marcados en rojo.");
         }
     }
 
@@ -188,32 +191,5 @@ public class FormReciboController implements Initializable {
         dpFechaVencimiento.getStyleClass().remove("text-field-error");
     }
 
-    /**
-     * Muestra un mensaje de error en una ventana de alerta.
-     *
-     * @param titulo El título de la ventana de alerta.
-     * @param mensaje El mensaje específico que se mostrará en la alerta.
-     */
-    private void mostrarMensajeDeError(String titulo, String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.ERROR); // Crea una nueva alerta de tipo ERROR
-        alert.setTitle(titulo);                   // Establece el título de la alerta
-        alert.setHeaderText(null);                // No se usa texto de encabezado
-        alert.setContentText(mensaje);            // Establece el contenido del mensaje de la alerta
-        alert.showAndWait();                      // Muestra la alerta y espera a que el usuario la cierre
-    }
-
-    /**
-     * Muestra un mensaje genérico en un cuadro de diálogo.
-     *
-     * @param titulo El título del cuadro de diálogo.
-     * @param mensaje El mensaje a mostrar.
-     */
-    private void mostrarMensaje(String titulo, String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
-    }
 
 }

@@ -19,32 +19,45 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
- * Controlador de la forma de cliente que gestiona la creación y visualización de clientes.
+ * Controlador de la forma de cliente que gestiona la creación y visualización
+ * de clientes.
  */
 public class FormClienteController implements Initializable {
 
-    @FXML private TextField txtNombre;
-    @FXML private TextField txtApellido;
-    @FXML private TextField txtDireccion;
-    @FXML private TextField txtTelfono;
-    @FXML private TextField txtMail;
-    @FXML private DatePicker dtFecNacimiento;
-    @FXML private TextField txtEstudios;
-    @FXML private TextField txtDNI;
-    @FXML private TextField txtProfesion;
-    @FXML private TextField txtObservaciones;
-    @FXML private TextField txtReferido;
-    @FXML private ComboBox<String> clmGenero;
-    @FXML private ComboBox<String> clmNacionalidad;
-    @FXML private ComboBox<String> clmEstadoCivil;
+    @FXML
+    private TextField txtNombre;
+    @FXML
+    private TextField txtApellido;
+    @FXML
+    private TextField txtDireccion;
+    @FXML
+    private TextField txtTelfono;
+    @FXML
+    private TextField txtMail;
+    @FXML
+    private DatePicker dtFecNacimiento;
+    @FXML
+    private TextField txtEstudios;
+    @FXML
+    private TextField txtDNI;
+    @FXML
+    private TextField txtProfesion;
+    @FXML
+    private TextField txtObservaciones;
+    @FXML
+    private TextField txtReferido;
+    @FXML
+    private ComboBox<String> clmGenero;
+    @FXML
+    private ComboBox<String> clmNacionalidad;
+    @FXML
+    private ComboBox<String> clmEstadoCivil;
 
     Cliente cliente;
     private Map<String, List<String>> itemsMap = new HashMap<>();
@@ -92,7 +105,7 @@ public class FormClienteController implements Initializable {
     private void handleCrearCliente(ActionEvent event) {
         limpiarEstilosError();
         if (!validarCampos()) {
-            mostrarAlerta();
+            Util.mostrarAlerta("Error de Validación", "No se puede crear el cliente. Por favor, corrija los campos marcados en rojo.");
         } else {
             try {
                 ClienteDAO clientedao = new ClienteDAO(ConexionMySQL.conectar());
@@ -121,9 +134,8 @@ public class FormClienteController implements Initializable {
                         null);
 
                 clientedao.createCliente(cliente);
-                Alert alert = new Alert(AlertType.CONFIRMATION, "Alta de " + txtNombre.getText() + " " + txtApellido.getText());
-                alert.setHeaderText("Se ha creado un nuevo cliente.");
-                alert.showAndWait();
+                Util.mostrarMensaje("Cliente creado.", "Alta de " + txtNombre.getText() + " " + txtApellido.getText());
+                handleCancelar(event);
             } catch (SQLException ex) {
                 Logger.getLogger(FormClienteController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -146,7 +158,8 @@ public class FormClienteController implements Initializable {
     /**
      * Verifica si los campos del formulario son válidos.
      *
-     * @return true si todos los campos requeridos son válidos, false en caso contrario.
+     * @return true si todos los campos requeridos son válidos, false en caso
+     * contrario.
      */
     private boolean validarCampos() {
         boolean valido = true;
@@ -182,17 +195,6 @@ public class FormClienteController implements Initializable {
     }
 
     /**
-     * Muestra una alerta de error cuando la validación falla.
-     */
-    private void mostrarAlerta() {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Error de Validación");
-        alert.setHeaderText("No se puede crear el cliente");
-        alert.setContentText("Por favor, corrija los campos marcados en rojo.");
-        alert.showAndWait();
-    }
-
-    /**
      * Verifica la validez del formato del DNI.
      *
      * @param dni El DNI a verificar.
@@ -201,9 +203,23 @@ public class FormClienteController implements Initializable {
     private boolean checkDNI(String dni) {
         return dni.matches("\\d{0,8}[A-Za-z]?");
     }
-    
-    
-     @FXML
+
+    /**
+     * Cierra la ventana actual. Este método puede ser llamado en respuesta a un
+     * evento, por ejemplo, un clic de botón.
+     *
+     * @param event El evento que disparó la llamada al método.
+     */
+    public void cerrarVentanaActual(ActionEvent event) {
+        // Obtiene el nodo que originó el evento
+        Node source = (Node) event.getSource();
+        // Obtiene la ventana (Stage) que contiene este nodo
+        Stage stage = (Stage) source.getScene().getWindow();
+        // Cierra la ventana
+        stage.close();
+    }
+
+    @FXML
     private void handleCancelar(ActionEvent event) {
         // Obtiene la ventana (Stage) actual desde el evento, cerrándola.
         Node source = (Node) event.getSource();

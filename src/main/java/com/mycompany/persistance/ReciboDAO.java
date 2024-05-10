@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Clase para gestionar las operaciones de base de datos para los objetos Recibo.
+ * Clase para gestionar las operaciones de base de datos para los objetos
+ * Recibo.
  */
 public class ReciboDAO {
 
@@ -17,6 +18,7 @@ public class ReciboDAO {
 
     /**
      * Constructor que establece la conexión con la base de datos.
+     *
      * @param connection Conexión activa a la base de datos.
      */
     public ReciboDAO(Connection connection) {
@@ -25,6 +27,7 @@ public class ReciboDAO {
 
     /**
      * Crea un objeto Recibo desde un ResultSet.
+     *
      * @param resultSet ResultSet que contiene los datos del recibo.
      * @return Un nuevo objeto Recibo.
      * @throws SQLException si ocurre un error al acceder a los datos.
@@ -44,6 +47,7 @@ public class ReciboDAO {
 
     /**
      * Recupera un recibo por su ID.
+     *
      * @param idRecibo El ID del recibo a recuperar.
      * @return El recibo, o null si no se encuentra.
      * @throws SQLException si ocurre un error durante la consulta.
@@ -62,13 +66,13 @@ public class ReciboDAO {
 
     /**
      * Obtiene el próximo ID disponible para un nuevo recibo.
+     *
      * @return El próximo ID disponible.
      * @throws SQLException si ocurre un error durante la consulta.
      */
     public int getNextID() throws SQLException {
         int maxID = 0;
-        try (var statement = connection.createStatement();
-             var resultSet = statement.executeQuery("SELECT MAX(ID_Recibos) AS maxID FROM recibos")) {
+        try (var statement = connection.createStatement(); var resultSet = statement.executeQuery("SELECT MAX(ID_Recibos) AS maxID FROM recibos")) {
             if (resultSet.next()) {
                 maxID = resultSet.getInt("maxID");
             }
@@ -78,8 +82,10 @@ public class ReciboDAO {
 
     /**
      * Inserta un nuevo recibo en la base de datos.
+     *
      * @param recibo El recibo a insertar.
-     * @return true si el recibo fue insertado correctamente, false de lo contrario.
+     * @return true si el recibo fue insertado correctamente, false de lo
+     * contrario.
      * @throws SQLException si ocurre un error durante la inserción.
      */
     public boolean insertRecibo(Recibo recibo) throws SQLException {
@@ -97,18 +103,19 @@ public class ReciboDAO {
             return stmt.executeUpdate() > 0;
         }
     }
-    
+
     /**
      * Obtiene todos los recibos de la base de datos.
+     *
      * @return Una lista de objetos Recibo.
      * @throws SQLException Si ocurre un error de acceso a la base de datos.
      */
     public List<Recibo> getAllRecibos() throws SQLException {
         List<Recibo> recibos = new ArrayList<>();
-        String query = "SELECT idRecibo, numRecibo, fechaEmision, fechaVencimiento, totalPagar FROM Recibos";
+        String query = "SELECT * FROM recibos";
         try (PreparedStatement statement = connection.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
-                Recibo recibo = new Recibo();
+                Recibo recibo = mapResultSetToRecibo(resultSet);
                 recibos.add(recibo);
             }
         }
@@ -117,8 +124,10 @@ public class ReciboDAO {
 
     /**
      * Elimina un recibo de la base de datos por su ID.
+     *
      * @param idRecibo El ID del recibo a eliminar.
-     * @return true si el recibo fue eliminado correctamente, false de lo contrario.
+     * @return true si el recibo fue eliminado correctamente, false de lo
+     * contrario.
      */
     public boolean deleteRecibo(int idRecibo) {
         String sql = "DELETE FROM recibos WHERE ID_Recibos = ?";
@@ -133,8 +142,10 @@ public class ReciboDAO {
 
     /**
      * Actualiza un recibo existente en la base de datos.
+     *
      * @param recibo El recibo con los datos actualizados.
-     * @return true si el recibo fue actualizado correctamente, false de lo contrario.
+     * @return true si el recibo fue actualizado correctamente, false de lo
+     * contrario.
      * @throws SQLException si ocurre un error durante la actualización.
      */
     public boolean actualizarRecibo(Recibo recibo) throws SQLException {
@@ -154,6 +165,7 @@ public class ReciboDAO {
 
     /**
      * Obtiene todos los recibos asociados a una poliza especifica.
+     *
      * @param id El ID de la poliza para la cual se buscan los recibos.
      * @return Una lista de recibos asociados a la poliza.
      * @throws SQLException Si hay un error al recuperar los datos.

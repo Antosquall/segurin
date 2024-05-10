@@ -60,6 +60,8 @@ public class FormObtenerListadoController implements Initializable {
             String tipoArchivo = getSelectedOption();
             System.out.println("Guardar en: " + f.getAbsolutePath());
             Util.generarListadoClientes(f, tipoArchivo);
+            Util.mostrarMensaje("Exito", "Archivo guardado de forma correcta en: " + f.getAbsolutePath());
+            handleCancelar(event);
         }
     }
     

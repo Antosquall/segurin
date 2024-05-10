@@ -2,6 +2,7 @@ package com.mycompany.testjavafx;
 
 import com.mycompany.model.Siniestro;
 import com.mycompany.persistance.SiniestroDAO;
+import com.mycompany.util.Util;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -15,7 +16,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -74,24 +74,26 @@ public class FormSiniestroController implements Initializable {
                 if (isEditMode) {
                     // Actualizar el siniestro existente
                     if (siniestroDao.actualizarSiniestro(siniestro)) {
-                        System.out.println("Siniestro actualizado correctamente.");
+                        Util.mostrarMensaje("OK", "Siniestro actualizado correctamente.");
+                        handleCancelar(event);
                     } else {
-                        mostrarMensajeDeError("Error al actualizar", "No se pudo actualizar el siniestro.");
+                        Util.mostrarAlerta("Error al actualizar", "No se pudo actualizar el siniestro.");
                     }
                 } else {
                     // Crear un nuevo siniestro
                     if (siniestroDao.insertarSiniestro(siniestro)) {
-                        System.out.println("Siniestro creado correctamente.");
+                        Util.mostrarMensaje("OK", "Siniestro creado correctamente.");
+                        handleCancelar(event);
                     } else {
-                        mostrarMensajeDeError("Error al crear", "No se pudo crear el siniestro.");
+                        Util.mostrarAlerta("Error al crear", "No se pudo crear el siniestro.");
                     }
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(FormSiniestroController.class.getName()).log(Level.SEVERE, null, ex);
-                mostrarMensajeDeError("Error de base de datos", "Error al intentar guardar el siniestro: " + ex.getMessage());
+                Util.mostrarAlerta("Error de base de datos", "Error al intentar guardar el siniestro: " + ex.getMessage());
             }
         } else {
-            mostrarMensajeDeError("Error de Validación", "Por favor, corrija los campos marcados en rojo.");
+            Util.mostrarAlerta("Error de Validación", "Por favor, corrija los campos marcados en rojo.");
         }
     }
 
@@ -195,11 +197,4 @@ public class FormSiniestroController implements Initializable {
         stage.close();
     }
 
-    private void mostrarMensajeDeError(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
 }

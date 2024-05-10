@@ -3,17 +3,23 @@ module com.mycompany.testjavafx {
     requires javafx.fxml;
     requires javafx.graphics;
     requires java.sql;
-    requires java.persistence;
-    requires org.hibernate.orm.core;
     requires java.naming;
-    requires hibernate.entitymanager;
     requires mysql.connector.java;
-    requires org.hibernate.commons.annotations;
     requires jasperreports;
 
     opens com.mycompany.testjavafx to javafx.fxml;
     opens com.mycompany.model;
     
     exports com.mycompany.testjavafx;
- requires java.desktop;
+     // Exporta el paquete para que sea accesible por otros módulos
+    exports com.mycompany.persistance;
+    requires java.desktop;
+    requires java.base;
+    
+    
+    // Si estás usando alguna librería que también necesita ser visible, por ejemplo, para JUnit
+    //requires junit;
+    requires org.mockito;
+    requires javafx.base;
+
 }

@@ -8,15 +8,54 @@ import java.time.LocalDate;
  */
 public class Poliza {
 
+    /**
+     * Identificador único de la póliza.
+     */
     private int idPoliza;
+
+    /**
+     * Identificador del cliente asociado a la póliza.
+     */
     private int idCliente;
+
+    /**
+     * Identificador del recibo asociado a la póliza.
+     */
     private String idRecibo;
+
+    /**
+     * Número de la póliza.
+     */
     private String numeroPoliza;
+
+    /**
+     * Fecha de emisión de la póliza.
+     */
     private LocalDate fechaEmision;
+
+    /**
+     * Fecha de vencimiento de la póliza.
+     */
     private LocalDate fechaVencimiento;
+
+    /**
+     * Tipo de cobertura de la póliza.
+     */
     private String tipoCobertura;
+
+    /**
+     * Cobertura adicional de la póliza.
+     */
     private String coberturaAdicional;
+
+    /**
+     * Agente comercial asociado a la póliza.
+     */
     private String comercial;
+
+    /**
+     * Comentarios adicionales sobre la póliza.
+     */
     private String comentarios;
 
     /**
@@ -55,33 +94,73 @@ public class Poliza {
 
     // Métodos de acceso y modificación para cada atributo de la póliza, documentados para clarificar su propósito.
 
+    /**
+     * Obtiene el identificador único de la póliza.
+     * @return el identificador único de la póliza.
+     */
     public int getIdPoliza() { return idPoliza; }
     public void setIdPoliza(int idPoliza) { this.idPoliza = idPoliza; }
 
+    /**
+     * Obtiene el identificador del cliente asociado a la póliza.
+     * @return el identificador del cliente asociado a la póliza.
+     */
     public int getID_Cliente() { return idCliente; }
     public void setID_Cliente(int idCliente) { this.idCliente = idCliente; }
 
+    /**
+     * Obtiene el identificador del recibo asociado a la póliza.
+     * @return el identificador del recibo asociado a la póliza.
+     */
     public String getIdRecibo() { return idRecibo; }
     public void setIdRecibo(String idRecibo) { this.idRecibo = idRecibo; }
 
+    /**
+     * Obtiene el número de la póliza.
+     * @return el número de la póliza.
+     */
     public String getNumeroPoliza() { return numeroPoliza; }
     public void setNumeroPoliza(String numeroPoliza) { this.numeroPoliza = numeroPoliza; }
 
+    /**
+     * Obtiene la fecha de emisión de la póliza.
+     * @return la fecha de emisión de la póliza.
+     */
     public LocalDate getFechaEmision() { return fechaEmision; }
     public void setFechaEmision(LocalDate fechaEmision) { this.fechaEmision = fechaEmision; }
 
+    /**
+     * Obtiene la fecha de vencimiento de la póliza.
+     * @return la fecha de vencimiento de la póliza.
+     */
     public LocalDate getFechaVencimiento() { return fechaVencimiento; }
     public void setFechaVencimiento(LocalDate fechaVencimiento) { this.fechaVencimiento = fechaVencimiento; }
 
+    /**
+     * Obtiene el tipo de cobertura de la póliza.
+     * @return el tipo de cobertura de la póliza.
+     */
     public String getTipoCobertura() { return tipoCobertura; }
     public void setTipoCobertura(String tipoCobertura) { this.tipoCobertura = tipoCobertura; }
 
+    /**
+     * Obtiene la cobertura adicional de la póliza.
+     * @return la cobertura adicional de la póliza.
+     */
     public String getCoberturaAdicional() { return coberturaAdicional; }
     public void setCoberturaAdicional(String coberturaAdicional) { this.coberturaAdicional = coberturaAdicional; }
 
+    /**
+     * Obtiene el agente comercial asociado a la póliza.
+     * @return el agente comercial asociado a la póliza.
+     */
     public String getComercial() { return comercial; }
     public void setComercial(String comercial) { this.comercial = comercial; }
 
+    /**
+     * Obtiene los comentarios adicionales sobre la póliza.
+     * @return los comentarios adicionales sobre la póliza.
+     */
     public String getComentarios() { return comentarios; }
     public void setComentarios(String comentarios) { this.comentarios = comentarios; }
 }
