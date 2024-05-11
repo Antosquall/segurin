@@ -1,5 +1,6 @@
 package com.mycompany.testjavafx;
 
+import com.mycompany.util.Util;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,8 +14,8 @@ import java.sql.SQLException;
 public class ConexionMySQL {
 
     private static final String URL = "jdbc:mysql://localhost:3306/segurin"; // URL de conexión a la base de datos
-    private static final String USUARIO = "test"; // Usuario de la base de datos
-    private static final String PASSWORD = "Ab_1234567"; // Contraseña del usuario de la base de datos
+    private static final String USUARIO = "root"; // Usuario de la base de datos
+    private static final String PASSWORD = ""; // Contraseña del usuario de la base de datos
 
     /**
      * Establece una conexión con la base de datos MySQL.
@@ -26,6 +27,7 @@ public class ConexionMySQL {
             // Intentar establecer la conexión
             conexion = DriverManager.getConnection(URL, USUARIO, PASSWORD);
         } catch (SQLException e) {
+            Util.mostrarAlerta("Error de Base de datos.", "No se puede estabecer conexión con la base de datos.");
             System.err.println("Error al conectar a la base de datos: " + e.getMessage());
         }
         return conexion;
