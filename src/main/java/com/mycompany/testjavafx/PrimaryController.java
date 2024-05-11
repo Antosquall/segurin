@@ -22,9 +22,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TableView;
-import javafx.stage.Stage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -42,6 +40,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 /**
  * Controlador principal de la interfaz de usuario para la aplicación.
@@ -68,6 +68,7 @@ public class PrimaryController implements Initializable {
     private TextField filterField;
     @FXML
     private Text textRol, textUser;
+    
 
     private ObservableList<Cliente> listaClientes;
     private ObservableList<Poliza> polizaClientes;
@@ -98,19 +99,14 @@ public class PrimaryController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         setupConnection();
         configurarMenuContextual();
         setupTables();
         configureTextFields();
 
-        //loadInitialData();
         setupTableListeners();
-
     }
-    
-    
-    
+
     /**
      * Configura las tablas de la interfaz de usuario.
      */
@@ -174,7 +170,7 @@ public class PrimaryController implements Initializable {
         clmTotal.setCellValueFactory(new PropertyValueFactory<>("totalPagar"));
     }
 
-    /**
+     /**
      * Carga los datos iniciales para todas las tablas.
      */
     private void loadInitialData() {
@@ -372,6 +368,7 @@ public class PrimaryController implements Initializable {
         menuManager.construirMenus(menuBar, usuario.getRol());
         //menuManager.construirMenus(menuBar, loginUsuario.getRol());
         //menuManager.construirMenus(menuBar);
+    
     }
 
     /**
@@ -409,8 +406,6 @@ public class PrimaryController implements Initializable {
 
     }
 
-    
-    
     //EN FASE DE PRUEBA
     private void reloadAllData() {
         loadClientesData();
@@ -538,7 +533,7 @@ public class PrimaryController implements Initializable {
                 alert.showAndWait();
             }
         } else {
-            Util.mostrarAlerta("Faltan datos", "Por favor, seleccione un cliente.");
+            Util.mostrarAlerta("Faltan datos", "Por favor, seleccione una póliza.");
         }
     }
 
@@ -573,7 +568,7 @@ public class PrimaryController implements Initializable {
                 alert.showAndWait();
             }
         } else {
-            Util.mostrarAlerta("Faltan datos", "Por favor, seleccione un cliente.");
+            Util.mostrarAlerta("Faltan datos", "Por favor, seleccione una póliza.");
         }
     }
 
