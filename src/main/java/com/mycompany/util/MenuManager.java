@@ -7,6 +7,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import java.net.URL;
+import javafx.scene.Scene;
+import javafx.scene.web.WebView;
+import javafx.stage.Stage;
 
 /**
  * Clase que gestiona los menús de la aplicación, incluyendo menús contextuales
@@ -29,11 +33,16 @@ public class MenuManager {
         MenuItem listarSiniestrosMenuItem = new MenuItem("Listar Siniestros");
         MenuItem listarRecibosMenuItem = new MenuItem("Listar Recibos");
 
+        Menu ayudaMenu = new Menu("Ayuda");
+        MenuItem acercaDeMenuItem = new MenuItem("Acerca de");
+        MenuItem ayudaMenuItem = new MenuItem("Ayuda");
+
         archivoMenu.getItems().addAll(salirMenuItem);
         listadosMenu.getItems().addAll(listarPolizasMenuItem, listarClientesMenuItem,
                 listarSiniestrosMenuItem, listarRecibosMenuItem);
+        ayudaMenu.getItems().addAll(acercaDeMenuItem, ayudaMenuItem);
 
-        menuBar.getMenus().addAll(archivoMenu, listadosMenu);
+        menuBar.getMenus().addAll(archivoMenu, listadosMenu, ayudaMenu);
 
         listarClientesMenuItem.setOnAction(event -> {
             FormObtenerListadoController obtenerListado = new FormObtenerListadoController();
@@ -51,8 +60,25 @@ public class MenuManager {
         listarRecibosMenuItem.setOnAction(event -> {
             mostrarAlerta("Menu sin funcion.", "Pendiente de desarrollo. Usar menú Clientes");
         });
+        // Configuración inicial del MenuItem de ayuda
+        ayudaMenuItem.setOnAction(event -> showHelp());
 
         salirMenuItem.setOnAction(event -> Platform.exit());
+    }
+
+    /**
+     * Muestra la ayuda de la aplicación.
+     */
+    public void showHelp() {
+        Stage helpStage = new Stage();
+        helpStage.setTitle("Ayuda de la Aplicación");
+
+        WebView webView = new WebView();
+        webView.getEngine().load(getClass().getResource("/ayuda/ayuda.html").toExternalForm());
+
+        Scene scene = new Scene(webView, 600, 400);
+        helpStage.setScene(scene);
+        helpStage.show();
     }
 
     /**
@@ -79,7 +105,6 @@ public class MenuManager {
                 controller.mostrarVentanaPrincipal();
 
             });
-
 
         }
 
