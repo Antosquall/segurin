@@ -1,15 +1,14 @@
 package com.mycompany.model;
 
 /**
- * Clase que representa un usuario en el sistema.
- * Esta clase se mapea a una tabla en la base de datos utilizando JPA.
+ * Clase que representa un usuario en el sistema. Esta clase se mapea a una
+ * tabla en la base de datos utilizando JPA.
  */
-
 public class Usuario {
 
     /**
-     * Identificador único del usuario.
-     * Se genera automáticamente por la base de datos.
+     * Identificador único del usuario. Se genera automáticamente por la base de
+     * datos.
      */
     private int id;
 
@@ -29,14 +28,15 @@ public class Usuario {
     private String rol;
 
     /**
-     * Constructor sin parámetros.
-     * Requerido por JPA para las operaciones de la base de datos.
+     * Constructor sin parámetros. Requerido por JPA para las operaciones de la
+     * base de datos.
      */
     public Usuario() {
     }
 
     /**
-     * Constructor que inicializa un usuario con id, nombre de usuario, contraseña y rol.
+     * Constructor que inicializa un usuario con id, nombre de usuario,
+     * contraseña y rol.
      *
      * @param id El identificador del usuario.
      * @param nombreUsuario El nombre de usuario.
@@ -51,8 +51,9 @@ public class Usuario {
     }
 
     /**
-     * Constructor que inicializa un usuario con nombre de usuario y rol.
-     * Útil para creaciones rápidas donde la contraseña puede no ser inicialmente requerida.
+     * Constructor que inicializa un usuario con nombre de usuario y rol. Útil
+     * para creaciones rápidas donde la contraseña puede no ser inicialmente
+     * requerida.
      *
      * @param nombreUsuario El nombre de usuario.
      * @param rol El rol del usuario.

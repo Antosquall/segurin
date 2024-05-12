@@ -24,30 +24,97 @@ import javafx.stage.Stage;
  */
 public class FormPolizaController implements Initializable {
 
+    /**
+     * Controlador FXML para la gestión de pólizas de seguro. Este controlador
+     * maneja la entrada de datos de pólizas, permitiendo crear nuevas pólizas o
+     * editar pólizas existentes.
+     */
+    /**
+     * Campo de texto para ingresar el número de la póliza.
+     */
     @FXML
     private TextField txtNumPoliza;
+
+    /**
+     * Campo de texto para ingresar el tipo de cobertura de la póliza.
+     */
     @FXML
     private TextField txtTipoCobertura;
+
+    /**
+     * Campo de texto para ingresar cualquier cobertura adicional asociada con
+     * la póliza.
+     */
     @FXML
     private TextField txtCoberturaAdicional;
+
+    /**
+     * Campo de texto para ingresar comentarios relacionados con la póliza.
+     */
     @FXML
     private TextField txtComentarios;
+
+    /**
+     * ComboBox para seleccionar el comercial asociado a la póliza. Los
+     * elementos del ComboBox se cargan dinámicamente desde un archivo.
+     */
     @FXML
     private ComboBox<String> cmbComercial;
+
+    /**
+     * Selector de fecha para la fecha de emisión de la póliza.
+     */
     @FXML
     private DatePicker dtFechaEmision;
+
+    /**
+     * Selector de fecha para la fecha de vencimiento de la póliza.
+     */
     @FXML
     private DatePicker dtFechaVencimiento;
 
+    /**
+     * Representa la instancia de la póliza que se está creando o editando.
+     */
     private Poliza poliza;
+
+    /**
+     * Identificador del cliente asociado a la póliza, utilizado en caso de
+     * creación de una nueva póliza.
+     */
     private int idCliente;
+
+    /**
+     * Indica si el formulario está en modo de edición, lo que significa que se
+     * está editando una póliza existente, en lugar de crear una nueva.
+     */
     private boolean isEditMode = false;
 
+    /**
+     * Mapa que almacena listas de elementos para los ComboBox, cargados desde
+     * un archivo. Las claves del mapa representan diferentes tipos de datos
+     * como 'comercial', entre otros.
+     */
     private Map<String, List<String>> itemsMap = new HashMap<>();
 
+    /**
+     * Inicializa el controlador después de que sus elementos de la interfaz de
+     * usuario han sido completamente cargados. Configura los listeners y carga
+     * inicial de datos necesarios para el correcto funcionamiento del
+     * formulario. Este método establece un listener en el campo de fecha de
+     * emisión para auto-configurar la fecha de vencimiento, y carga
+     * dinámicamente las opciones del comboBox de comerciales desde un archivo.
+     *
+     * @param url El URL que se usó para cargar el FXML y que puede ser usado
+     * para resolver rutas relativas para el objeto raíz, o null si el FXML no
+     * fue cargado desde un URL.
+     * @param rb El recurso usado para localizar la raíz del objeto, o null si
+     * el recurso no está localizado.
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Código de inicialización aquí.
+        fijarFecha();
         try {
             itemsMap = Util.loadItemsFromFile();
             cmbComercial.getItems().addAll(itemsMap.get("comercial"));
@@ -93,6 +160,18 @@ public class FormPolizaController implements Initializable {
         txtComentarios.setText(poliza.getComentarios());
     }
 
+    /**
+     * Maneja el evento de creación o actualización de una póliza de seguro.
+     * Limpia los estilos de error, valida los campos del formulario y, si son
+     * correctos, configura y guarda los datos de la póliza en la base de datos.
+     * Muestra mensajes relevantes según el resultado de la operación y cierra
+     * la ventana en caso de éxito.
+     *
+     * @param event El evento de acción que se activa al hacer clic en el botón
+     * de guardar. Contiene información sobre el contexto del evento.
+     * @throws SQLException Si ocurre un error al interactuar con la base de
+     * datos, se captura y se maneja mostrando un mensaje de alerta al usuario.
+     */
     @FXML
     private void handleCrearPoliza(ActionEvent event) {
         limpiarEstilosDeError();
@@ -182,12 +261,42 @@ public class FormPolizaController implements Initializable {
         return esValido;
     }
 
+    /**
+     * Controlador de acción que se invoca al presionar un botón para cancelar.
+     * Cierra la ventana (Stage) actual.
+     *
+     * @param event El evento de acción que contiene la información del contexto
+     * en el que se produjo el evento.
+     */
     @FXML
     private void handleCancelar(ActionEvent event) {
         // Obtiene la ventana (Stage) actual desde el evento, cerrándola.
         Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
+    }
+
+    /**
+     * Configura un listener para el campo de fecha de emisión que ajusta
+     * automáticamente la fecha de vencimiento a un año después de la fecha
+     * seleccionada, si la fecha de vencimiento no está ya establecida o está
+     * deshabilitada. También carga los items disponibles para el comboBox de
+     * comerciales desde un archivo.
+     */
+    private void fijarFecha() {
+        // Listener que ajusta la fecha de vencimiento
+        dtFechaEmision.valueProperty().addListener((obs, oldDate, newDate) -> {
+            if (newDate != null && (dtFechaVencimiento.getValue() == null || dtFechaVencimiento.isDisabled())) {
+                dtFechaVencimiento.setValue(newDate.plusYears(1));
+            }
+        });
+
+        try {
+            itemsMap = Util.loadItemsFromFile();
+            cmbComercial.getItems().addAll(itemsMap.get("comercial"));
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
 }

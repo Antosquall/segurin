@@ -23,17 +23,43 @@ import javafx.stage.Stage;
  */
 public class LoginController {
 
+    /**
+     * Campo de texto para ingresar el nombre de usuario.
+     */
     @FXML
     private TextField usuarioField;
+
+    /**
+     * Campo de texto para ingresar la contraseña del usuario.
+     */
     @FXML
     private PasswordField contrasenaField;
+
+    /**
+     * Botón para salir de la aplicación.
+     */
     @FXML
     private Button btnSalir;
 
+    /**
+     * Objeto DAO para interactuar con la base de datos de usuarios.
+     */
     private UsuarioDAO usuarioDAO;
+
+    /**
+     * Objeto que representa al usuario actual.
+     */
     private Usuario usuario;
 
-     @FXML
+    /**
+     * Inicializa el controlador después de que su elemento raíz haya sido
+     * completamente procesado. Este método se llama automáticamente después de
+     * que se haya cargado el archivo FXML y se haya asociado el controlador.
+     * Configura el PasswordField para responder a la tecla Enter, de manera que
+     * al presionar Enter en el campo de contraseña, se llama al método
+     * iniciarSesion() para iniciar sesión en la aplicación.
+     */
+    @FXML
     public void initialize() {
         // Configura el TextField para responder a la tecla Enter
         contrasenaField.setOnKeyPressed(event -> {
@@ -42,8 +68,7 @@ public class LoginController {
             }
         });
     }
-    
-    
+
     /**
      * Intenta iniciar sesión utilizando las credenciales proporcionadas en los
      * campos de texto. Si la autenticación es exitosa, cambia a la ventana
@@ -76,11 +101,22 @@ public class LoginController {
         }
     }
 
+    /**
+     * Abre la ventana principal de la aplicación después de que el usuario
+     * inicie sesión con éxito. Carga el archivo FXML que define la interfaz de
+     * usuario de la ventana principal, carga el contenido en un objeto Parent,
+     * obtiene el controlador de la ventana principal, inicializa los datos del
+     * controlador con el usuario que inició sesión, crea un nuevo Stage para la
+     * ventana, establece el título y las dimensiones de la ventana, asigna la
+     * escena creada a la ventana y muestra la ventana.
+     *
+     * @throws IOException Si ocurre un error al cargar el archivo FXML.
+     */
     private void abrirVentanaPrincipal() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("primary.fxml"));
         Parent root = loader.load();
         PrimaryController primaryController = loader.getController();
-        primaryController.initData(usuario); 
+        primaryController.initData(usuario);
 
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
@@ -91,7 +127,7 @@ public class LoginController {
         stage.setMaxHeight(1080);
         stage.setMinHeight(768);
         stage.setHeight(900);
-        
+
         stage.show();
     }
 

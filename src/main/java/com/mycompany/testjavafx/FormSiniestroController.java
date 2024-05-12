@@ -22,33 +22,114 @@ import javafx.stage.Stage;
 
 public class FormSiniestroController implements Initializable {
 
+    /**
+     * Controlador FXML para la interfaz de gestión de siniestros. Este
+     * controlador facilita la entrada y modificación de los datos de siniestros
+     * relacionados con pólizas de seguro.
+     */
+    /**
+     * Campo de texto para ingresar el número identificatorio del siniestro.
+     */
     @FXML
     private TextField txtNumSiniestro;
+
+    /**
+     * Campo de texto para ingresar la descripción detallada del siniestro.
+     */
     @FXML
     private TextField txtDescripcion;
+
+    /**
+     * Campo de texto para ingresar el lugar donde ocurrió el siniestro.
+     */
     @FXML
     private TextField txtLugarSiniestro;
+
+    /**
+     * Campo de texto para especificar el tipo de siniestro, por ejemplo,
+     * "Robo", "Accidente vehicular", etc.
+     */
     @FXML
     private TextField txtTipoSiniestro;
+
+    /**
+     * Campo de texto para ingresar el total monetario reclamado como resultado
+     * del siniestro.
+     */
     @FXML
     private TextField txtTotalReclamado;
+
+    /**
+     * Campo de texto para especificar el estado actual del siniestro, como "En
+     * proceso", "Resuelto", etc.
+     */
     @FXML
     private TextField txtEstadoSiniestro;
+
+    /**
+     * Selector de fecha para la fecha en que ocurrió el siniestro.
+     */
     @FXML
     private DatePicker dpFechaSiniestro;
+
+    /**
+     * Selector de fecha para la fecha en que se resolvió o se espera resolver
+     * el siniestro.
+     */
     @FXML
     private DatePicker dpFechaResolucion;
 
+    /**
+     * Instancia de la clase Siniestro que representa al siniestro siendo creado
+     * o editado en el formulario.
+     */
     private Siniestro siniestro = new Siniestro();
+
+    /**
+     * Identificador de la póliza asociada con este siniestro. Este
+     * identificador vincula el siniestro con una póliza específica dentro del
+     * sistema.
+     */
     private int idPoliza;
 
+    /**
+     * Indicador de si el formulario está en modo de edición. Si está en modo de
+     * edición, el formulario carga y permite la modificación de un siniestro
+     * existente. Si no, el formulario se configura para la creación de un nuevo
+     * siniestro.
+     */
     private boolean isEditMode = false;
 
+    /**
+     * Inicializa el controlador después de que todos los elementos de la
+     * interfaz de usuario han sido cargados. Este método se llama
+     * automáticamente después de que los elementos FXML han sido completamente
+     * cargados e instanciados. Puede ser utilizado para realizar
+     * configuraciones adicionales o cargar datos dinámicos necesarios para la
+     * interfaz.
+     *
+     * @param url El URL que fue utilizado para cargar el archivo FXML, que
+     * puede ser usado para resolver rutas relativas para el objeto raíz, o null
+     * si la ubicación no es conocida.
+     * @param rb El recurso que fue utilizado para localizar el objeto raíz, o
+     * null si el recurso no fue encontrado.
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Aquí podrías cargar datos adicionales si es necesario
     }
 
+    /**
+     * Abre y muestra la ventana principal para el formulario de siniestros.
+     * Carga la interfaz de usuario desde un archivo FXML específico y configura
+     * una nueva ventana para mostrarla. Establece dimensiones fijas para la
+     * ventana para asegurar una presentación consistente independientemente del
+     * contenido.
+     *
+     * @throws IOException Si hay un problema al cargar el archivo FXML, como un
+     * archivo no encontrado o un error de lectura, se captura la excepción y se
+     * imprime un mensaje de error en la consola.
+     */
     public void mostrarVentanaPrincipal() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("formSiniestro.fxml"));
@@ -65,6 +146,19 @@ public class FormSiniestroController implements Initializable {
         }
     }
 
+    /**
+     * Maneja el evento de clic en el botón de creación de siniestro. Valida los
+     * campos del formulario antes de intentar guardar o actualizar un siniestro
+     * en la base de datos. Si los campos son válidos y el formulario está en
+     * modo de edición, actualiza el siniestro existente; de lo contrario, crea
+     * un nuevo siniestro en la base de datos. Muestra mensajes de éxito o error
+     * dependiendo del resultado de la operación de guardado.
+     *
+     * @param event El evento de acción que se activa al hacer clic en el botón
+     * de crear o actualizar siniestro.
+     * @throws SQLException Si ocurre un error al interactuar con la base de
+     * datos, se captura y se maneja mostrando un mensaje de alerta al usuario.
+     */
     @FXML
     private void handleCrearSiniestro(ActionEvent event) {
         if (validarCampos()) {
@@ -97,6 +191,14 @@ public class FormSiniestroController implements Initializable {
         }
     }
 
+    /**
+     * Extrae y asigna los valores de los campos del formulario a las
+     * propiedades del objeto siniestro. Este método se encarga de configurar el
+     * objeto siniestro con toda la información necesaria para su guardado o
+     * actualización en la base de datos. Recopila los datos ingresados en los
+     * campos del formulario y los asigna a las propiedades correspondientes del
+     * objeto siniestro, preparándolo para una operación de persistencia.
+     */
     private void configurarDatosSiniestroDesdeFormulario() {
         siniestro.setNumSiniestro(txtNumSiniestro.getText());
         siniestro.setFechaSiniestro(dpFechaSiniestro.getValue());
@@ -110,10 +212,32 @@ public class FormSiniestroController implements Initializable {
         // Asegurarse de que el ID de la póliza esté establecido si es necesario
     }
 
+    /**
+     * Inicializa el controlador con un ID de póliza específico. Este método es
+     * utilizado para configurar el controlador con un ID de póliza
+     * proporcionado, lo cual es crucial para asociar cualquier nuevo siniestro
+     * creado o siniestro existente editado con la póliza correcta.
+     *
+     * @param idPolizaSeleccionada El ID de la póliza que se utilizará para
+     * operaciones adicionales como la creación o actualización de siniestros
+     * relacionados con esta póliza.
+     */
     public void initData(int idPolizaSeleccionada) {
         this.idPoliza = idPolizaSeleccionada;
     }
 
+    /**
+     * Inicializa los datos del objeto Siniestro.
+     *
+     * Si el parámetro siniestro es nulo, se crea un nuevo objeto Siniestro y se
+     * establece el modo de edición como falso. Si el parámetro siniestro no es
+     * nulo, se asigna el objeto siniestro pasado, se establece el modo de
+     * edición como verdadero, se deshabilita el componente txtNumSiniestro y se
+     * cargan los datos del siniestro.
+     *
+     * @param siniestro El objeto Siniestro que se utilizará para inicializar
+     * los datos. Puede ser nulo.
+     */
     public void initData(Siniestro siniestro) {
         if (siniestro == null) {
             this.siniestro = new Siniestro();
@@ -126,6 +250,11 @@ public class FormSiniestroController implements Initializable {
         }
     }
 
+    /**
+     * Carga los datos del objeto Siniestro en los componentes de la interfaz de
+     * usuario. Actualiza los campos de texto y selección con los valores
+     * correspondientes del objeto Siniestro.
+     */
     private void cargarDatosSiniestro() {
         txtNumSiniestro.setText(siniestro.getNumSiniestro());
         dpFechaSiniestro.setValue(siniestro.getFechaSiniestro());
@@ -137,6 +266,14 @@ public class FormSiniestroController implements Initializable {
         dpFechaResolucion.setValue(siniestro.getFechaResolucion());
     }
 
+    /**
+     * Valida los campos de entrada en la interfaz de usuario. Comprueba si los
+     * campos obligatorios están vacíos y agrega un estilo de error a los campos
+     * vacíos.
+     *
+     * @return true si todos los campos obligatorios contienen datos válidos,
+     * false de lo contrario.
+     */
     private boolean validarCampos() {
         boolean esValido = true;
         limpiarEstilosDeError();
@@ -178,6 +315,11 @@ public class FormSiniestroController implements Initializable {
         return esValido;
     }
 
+    /**
+     * Limpia los estilos de error de los componentes de la interfaz de usuario.
+     * Elimina la clase de estilo "text-field-error" de los componentes de texto
+     * y selección.
+     */
     private void limpiarEstilosDeError() {
         txtNumSiniestro.getStyleClass().remove("text-field-error");
         txtDescripcion.getStyleClass().remove("text-field-error");
@@ -188,8 +330,14 @@ public class FormSiniestroController implements Initializable {
         dpFechaSiniestro.getStyleClass().remove("text-field-error");
         dpFechaResolucion.getStyleClass().remove("text-field-error");
     }
-    
-     @FXML
+
+    /**
+     * Maneja el evento de cancelación. Obtiene la ventana actual (Stage) a
+     * partir del evento y la cierra.
+     *
+     * @param event El evento de acción que desencadenó este método.
+     */
+    @FXML
     private void handleCancelar(ActionEvent event) {
         // Obtiene la ventana (Stage) actual desde el evento, cerrándola.
         Node source = (Node) event.getSource();

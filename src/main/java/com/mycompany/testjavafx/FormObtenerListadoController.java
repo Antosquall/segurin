@@ -19,20 +19,56 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 /**
- * Controlador para la interfaz gráfica de selección de formato de archivo para listados.
+ * Controlador para la interfaz gráfica de selección de formato de archivo para
+ * listados.
  */
 public class FormObtenerListadoController implements Initializable {
 
-    @FXML private RadioButton btnPDF;
-    @FXML private RadioButton btnXLS;
-    @FXML private RadioButton btnCSV;
+    /**
+     * Controlador FXML que maneja la selección del formato de exportación para
+     * documentos o reportes. Proporciona opciones de radio para seleccionar
+     * entre diferentes formatos de archivo.
+     */
+    /**
+     * Botón de opción para seleccionar el formato PDF para la exportación de
+     * documentos. Al seleccionar este botón, el usuario indica que desea
+     * exportar el documento en formato PDF.
+     */
+    @FXML
+    private RadioButton btnPDF;
+
+    /**
+     * Botón de opción para seleccionar el formato XLS (Excel) para la
+     * exportación de documentos. Al seleccionar este botón, el usuario indica
+     * que desea exportar el documento en formato XLS, comúnmente utilizado para
+     * hojas de cálculo.
+     */
+    @FXML
+    private RadioButton btnXLS;
+
+    /**
+     * Botón de opción para seleccionar el formato CSV para la exportación de
+     * documentos. Al seleccionar este botón, el usuario indica que desea
+     * exportar el documento en formato CSV, útil para la importación y
+     * exportación de datos simples entre aplicaciones.
+     */
+    @FXML
+    private RadioButton btnCSV;
+
+    /**
+     * Grupo de Toggle que asegura que sólo un botón de opción puede ser
+     * seleccionado a la vez. Agrupa los botones de opción de formatos para que
+     * la selección sea exclusiva, evitando selecciones múltiples.
+     */
     private final ToggleGroup groupGenero = new ToggleGroup();
 
     /**
      * Inicializa el controlador y configura el grupo de botones de radio.
      *
-     * @param url La ubicación utilizada para resolver rutas relativas para el objeto raíz, o null si la ubicación no es conocida.
-     * @param rb Los recursos utilizados para localizar el objeto raíz, o null si el objeto raíz no fue localizado.
+     * @param url La ubicación utilizada para resolver rutas relativas para el
+     * objeto raíz, o null si la ubicación no es conocida.
+     * @param rb Los recursos utilizados para localizar el objeto raíz, o null
+     * si el objeto raíz no fue localizado.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -64,9 +100,10 @@ public class FormObtenerListadoController implements Initializable {
             handleCancelar(event);
         }
     }
-    
+
     /**
-     * Obtiene el tipo de archivo seleccionado a partir del grupo de botones de radio.
+     * Obtiene el tipo de archivo seleccionado a partir del grupo de botones de
+     * radio.
      *
      * @return El tipo de archivo seleccionado.
      */
@@ -97,8 +134,8 @@ public class FormObtenerListadoController implements Initializable {
             System.err.println(e.getMessage());
         }
     }
-    
-     @FXML
+
+    @FXML
     private void handleCancelar(ActionEvent event) {
         // Obtiene la ventana (Stage) actual desde el evento, cerrándola.
         Node source = (Node) event.getSource();

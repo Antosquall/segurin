@@ -23,6 +23,8 @@ import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 import java.awt.Desktop;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 
 /**
  * Clase de utilidades para la aplicación.
@@ -140,6 +142,42 @@ public class Util {
         return itemsMap;
     }
 
+    /**
+     * Configura un filtro que permite solo números y opcionalmente un punto
+     * decimal con hasta dos dígitos.
+     *
+     * @param textField El TextField al que se aplicará el filtro.
+     */
+    public static void configurarFiltroNumericoDecimal(TextField textField) {
+        TextFormatter<String> formatoDecimal = new TextFormatter<>(change -> {
+            String newText = change.getControlNewText();
+            // Permite números y un punto decimal con hasta dos posiciones decimales.
+            if (newText.matches("\\d*(\\.\\d{0,2})?")) {
+                return change;
+            }
+            return null; // Ignora el cambio si no cumple el formato
+        });
+
+        textField.setTextFormatter(formatoDecimal);
+    }
+
+    /**
+     * Genera un informe de cliente en formato PDF y lo abre con el software de
+     * PDF predeterminado del sistema. El informe se genera a partir de un
+     * archivo de informe precompilado (JasperReport), utilizando los datos del
+     * cliente identificado por el ID proporcionado. El informe se genera con la
+     * información del cliente obtenida de la base de datos. El archivo PDF
+     * generado se guarda en el directorio actual con el nombre
+     * "output_report.pdf". En caso de éxito, imprime un mensaje indicando que
+     * el reporte se generó correctamente y abre automáticamente el PDF generado
+     * con el software de PDF predeterminado del sistema. Si no se puede abrir
+     * el PDF automáticamente, imprime un mensaje indicando que no se puede
+     * abrir el PDF automáticamente en este sistema. Si ocurre algún error
+     * durante la generación o apertura del reporte, imprime un mensaje de error
+     * detallado.
+     *
+     * @param clienteId El ID del cliente para el cual se generará el informe.
+     */
     public static void generateReport(int clienteId) {
         try {
             // Cargar el informe precompilado
@@ -171,7 +209,7 @@ public class Util {
             System.err.println(ex.getMessage());
         }
     }
-    
+
     /**
      * Muestra un mensaje de información.
      *
@@ -185,7 +223,7 @@ public class Util {
         alert.setContentText(contenido);
         alert.showAndWait();
     }
-    
+
     /**
      * Muestra un mensaje de error.
      *
@@ -199,7 +237,6 @@ public class Util {
         alert.setContentText(mensaje);
         alert.showAndWait();
     }
-    
 
     private Connection getConnection() {
         // Implementar conexión a base de datos

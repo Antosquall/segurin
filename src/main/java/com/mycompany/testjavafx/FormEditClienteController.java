@@ -27,39 +27,124 @@ import javafx.stage.Stage;
  */
 public class FormEditClienteController implements Initializable {
 
+    /**
+     * Controlador FXML para la interfaz de gestión de clientes. Este
+     * controlador facilita la entrada y modificación de los datos del cliente
+     * en la base de datos.
+     */
+    /**
+     * Campo de texto para ingresar el ID único del cliente, generalmente usado
+     * como clave primaria en la base de datos.
+     */
     @FXML
     private TextField txtIdCliente;
+
+    /**
+     * Campo de texto para ingresar el nombre del cliente.
+     */
     @FXML
     private TextField txtNombre;
+
+    /**
+     * Campo de texto para ingresar el apellido del cliente.
+     */
     @FXML
     private TextField txtApellido;
+
+    /**
+     * Campo de texto para ingresar la dirección física del cliente.
+     */
     @FXML
     private TextField txtDireccion;
+
+    /**
+     * Campo de texto para ingresar el número de teléfono del cliente.
+     */
     @FXML
     private TextField txtTelefono;
+
+    /**
+     * Campo de texto para ingresar el correo electrónico del cliente.
+     */
     @FXML
     private TextField txtMail;
+
+    /**
+     * Selector de fecha para ingresar la fecha de nacimiento del cliente.
+     */
     @FXML
     private DatePicker dtFecNacimiento;
+
+    /**
+     * Campo de texto para ingresar el nivel de estudios del cliente.
+     */
     @FXML
     private TextField txtEstudios;
+
+    /**
+     * Campo de texto para ingresar el Documento Nacional de Identidad del
+     * cliente.
+     */
     @FXML
     private TextField txtDNI;
+
+    /**
+     * Campo de texto para ingresar la profesión actual del cliente.
+     */
     @FXML
     private TextField txtProfesion;
+
+    /**
+     * Campo de texto para ingresar observaciones adicionales sobre el cliente.
+     */
     @FXML
     private TextField txtObservaciones;
+
+    /**
+     * Campo de texto para ingresar información sobre la persona o entidad que
+     * refirió al cliente a la empresa.
+     */
     @FXML
     private TextField txtReferido;
+
+    /**
+     * ComboBox para seleccionar el género del cliente. Las opciones son
+     * configuradas desde un mapa de items.
+     */
     @FXML
     private ComboBox<String> clmGenero;
+
+    /**
+     * ComboBox para seleccionar la nacionalidad del cliente. Las opciones son
+     * configuradas desde un mapa de items.
+     */
     @FXML
     private ComboBox<String> clmNacionalidad;
+
+    /**
+     * ComboBox para seleccionar el estado civil del cliente. Las opciones son
+     * configuradas desde un mapa de items.
+     */
     @FXML
     private ComboBox<String> clmEstadoCivil;
 
+    /**
+     * Instancia del modelo Cliente que representa al cliente actual en el
+     * formulario.
+     */
     private Cliente cliente;
+
+    /**
+     * DAO (Data Access Object) para Cliente que maneja las operaciones de base
+     * de datos relacionadas con los clientes.
+     */
     private ClienteDAO clienteDAO;
+
+    /**
+     * Mapa que contiene listas de strings usadas para los ComboBoxes del
+     * formulario. Cada lista está asociada a una clave que representa una
+     * categoría de datos, como género, nacionalidad, o estado civil.
+     */
     private Map<String, List<String>> itemsMap = new HashMap<>();
 
     /**

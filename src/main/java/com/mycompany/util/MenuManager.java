@@ -62,6 +62,7 @@ public class MenuManager {
         });
         // Configuración inicial del MenuItem de ayuda
         ayudaMenuItem.setOnAction(event -> showHelp());
+        acercaDeMenuItem.setOnAction(event -> showAcercaDe());
 
         salirMenuItem.setOnAction(event -> Platform.exit());
     }
@@ -75,6 +76,22 @@ public class MenuManager {
 
         WebView webView = new WebView();
         webView.getEngine().load(getClass().getResource("/ayuda/ayuda.html").toExternalForm());
+
+        Scene scene = new Scene(webView, 600, 400);
+        helpStage.setScene(scene);
+        helpStage.show();
+    }
+    
+    
+    /**
+     * Muestra la ayuda de la aplicación.
+     */
+    public void showAcercaDe() {
+        Stage helpStage = new Stage();
+        helpStage.setTitle("Acerca de segurin");
+
+        WebView webView = new WebView();
+        webView.getEngine().load(getClass().getResource("/ayuda/acercade.html").toExternalForm());
 
         Scene scene = new Scene(webView, 600, 400);
         helpStage.setScene(scene);
@@ -117,6 +134,15 @@ public class MenuManager {
         // Menús adicionales para otros roles pueden ser añadidos aquí
     }
 
+    /**
+     * Muestra una alerta con el título y mensaje especificados. Crea una nueva
+     * instancia de Alert con el tipo de alerta ERROR, establece el título y
+     * mensaje especificados, y muestra la alerta modalmente. El método bloquea
+     * la ejecución hasta que el usuario cierra la alerta.
+     *
+     * @param titulo El título de la alerta.
+     * @param mensaje El mensaje de la alerta.
+     */
     private void mostrarAlerta(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(titulo);

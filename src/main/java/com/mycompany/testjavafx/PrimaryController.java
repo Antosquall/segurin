@@ -48,46 +48,109 @@ import javafx.stage.Stage;
  */
 public class PrimaryController implements Initializable {
 
+    /**
+     * Tabla que muestra la lista de clientes.
+     */
     @FXML
     private TableView<Cliente> clientesTable;
+
+    /**
+     * Tabla que muestra la lista de pólizas.
+     */
     @FXML
     private TableView<Poliza> polizaTable;
+
+    /**
+     * Tabla que muestra la lista de siniestros.
+     */
     @FXML
     private TableView<Siniestro> siniestroTable;
+
+    /**
+     * Tabla que muestra la lista de recibos.
+     */
     @FXML
     private TableView<Recibo> reciboTable;
+
+    /**
+     * Columnas de la tabla de clientes.
+     */
     @FXML
     private TableColumn<Cliente, String> clmNombre, clmApellido, clmTelefono, clmMail, clmDNI;
+
+    /**
+     * Columnas de la tabla de pólizas.
+     */
     @FXML
     private TableColumn<Poliza, String> clmNumPoliza, clmVencimiento, clmCobertura;
+
+    /**
+     * Columnas de la tabla de siniestros.
+     */
     @FXML
     private TableColumn<Siniestro, String> clmSiniestro, clmFechaSiniestro, clmEstadoSiniestro;
+
+    /**
+     * Columnas de la tabla de recibos.
+     */
     @FXML
     private TableColumn<Recibo, String> clmRecibo, clmFechaEmision, clmFechaVencimiento, clmTotal;
+
+    /**
+     * Campo de texto utilizado para filtrar los elementos de las tablas.
+     */
     @FXML
     private TextField filterField;
-    @FXML
-    private Text textRol, textUser;
-    
 
+    /**
+     * Texto que muestra el rol del usuario actual.
+     */
+    @FXML
+    private Text textRol;
+
+    /**
+     * Texto que muestra el nombre de usuario actual.
+     */
+    @FXML
+    private Text textUser;
+
+    /**
+     * Lista observable que contiene la lista de clientes.
+     */
     private ObservableList<Cliente> listaClientes;
+
+    /**
+     * Lista observable que contiene la lista de pólizas asociadas a un cliente.
+     */
     private ObservableList<Poliza> polizaClientes;
+
+    /**
+     * Lista observable que contiene la lista de recibos asociados a una póliza.
+     */
     private ObservableList<Recibo> reciboPoliza;
+
+    /**
+     * Lista observable que contiene la lista de siniestros asociados a una
+     * póliza.
+     */
     private ObservableList<Siniestro> siniestroPoliza;
 
+    /**
+     * Conexión a la base de datos.
+     */
     private Connection connection;
 
+    /**
+     * Menú de la aplicación.
+     */
     @FXML
     private MenuBar menuBar;
 
+    /**
+     * Objeto que representa al usuario actual.
+     */
     private Usuario usuario;
 
-//    @FXML private RadioButton btnLight;
-//    @FXML private RadioButton btnDark;
-//    private final ToggleGroup groupGenero = new ToggleGroup();
-//
-//    @FXML
-//    private BorderPane myBorderPane;
     /**
      * Inicializa el controlador y configura los componentes de la interfaz de
      * usuario.
@@ -170,7 +233,7 @@ public class PrimaryController implements Initializable {
         clmTotal.setCellValueFactory(new PropertyValueFactory<>("totalPagar"));
     }
 
-     /**
+    /**
      * Carga los datos iniciales para todas las tablas.
      */
     private void loadInitialData() {
@@ -180,6 +243,14 @@ public class PrimaryController implements Initializable {
 //        loadRecibosData();
     }
 
+    /**
+     * Carga los datos de los clientes desde la base de datos y los muestra en
+     * la tabla de clientes. Utiliza ClienteDAO para obtener la lista de todos
+     * los clientes desde la base de datos, asigna la lista obtenida a la lista
+     * observable listaClientes y establece esta lista como el conjunto de ítems
+     * de la tabla de clientes. En caso de error al cargar los datos de los
+     * clientes desde la base de datos, registra el error.
+     */
     private void loadClientesData() {
         try {
             ClienteDAO clienteDAO = new ClienteDAO(connection);
@@ -191,6 +262,15 @@ public class PrimaryController implements Initializable {
         }
     }
 
+    /**
+     * Carga los datos de las pólizas desde la base de datos y los muestra en la
+     * tabla de pólizas. Utiliza PolizaDAO para obtener la lista de todas las
+     * pólizas desde la base de datos, limpia la lista observable
+     * polizaClientes, agrega todas las pólizas obtenidas a esta lista
+     * observable y establece esta lista como el conjunto de ítems de la tabla
+     * de pólizas. En caso de error al cargar los datos de las pólizas desde la
+     * base de datos, registra el error y muestra una alerta de error.
+     */
     private void loadPolizasData() {
         try {
             PolizaDAO polizaDao = new PolizaDAO(connection);
@@ -204,6 +284,15 @@ public class PrimaryController implements Initializable {
         }
     }
 
+    /**
+     * Carga los datos de los siniestros desde la base de datos y los muestra en
+     * la tabla de siniestros. Utiliza SiniestroDAO para obtener la lista de
+     * todos los siniestros desde la base de datos, limpia la lista observable
+     * siniestroPoliza, agrega todos los siniestros obtenidos a esta lista
+     * observable y establece esta lista como el conjunto de ítems de la tabla
+     * de siniestros. En caso de error al cargar los datos de los siniestros
+     * desde la base de datos, registra el error y muestra una alerta de error.
+     */
     private void loadSiniestrosData() {
         try {
             SiniestroDAO siniestroDao = new SiniestroDAO(connection);
@@ -217,6 +306,15 @@ public class PrimaryController implements Initializable {
         }
     }
 
+    /**
+     * Carga los datos de los recibos desde la base de datos y los muestra en la
+     * tabla de recibos. Utiliza ReciboDAO para obtener la lista de todos los
+     * recibos desde la base de datos, limpia la lista observable reciboPoliza,
+     * agrega todos los recibos obtenidos a esta lista observable y establece
+     * esta lista como el conjunto de ítems de la tabla de recibos. En caso de
+     * error al cargar los datos de los recibos desde la base de datos, registra
+     * el error y muestra una alerta de error.
+     */
     private void loadRecibosData() {
         try {
             ReciboDAO reciboDao = new ReciboDAO(connection);
@@ -368,7 +466,7 @@ public class PrimaryController implements Initializable {
         menuManager.construirMenus(menuBar, usuario.getRol());
         //menuManager.construirMenus(menuBar, loginUsuario.getRol());
         //menuManager.construirMenus(menuBar);
-    
+
     }
 
     /**
@@ -399,6 +497,11 @@ public class PrimaryController implements Initializable {
         //configMenu(usuario);
     }
 
+    /**
+     * Actualiza la interfaz de usuario basada en la información del usuario
+     * actual. Establece el nombre de usuario del usuario actual en el campo de
+     * texto textUser y el rol del usuario actual en el campo de texto textRol.
+     */
     private void updateUI() {
         // Actualiza la interfaz de usuario basada en la información del usuario
         textUser.setText(usuario.getNombreUsuario());
@@ -406,7 +509,14 @@ public class PrimaryController implements Initializable {
 
     }
 
-    //EN FASE DE PRUEBA
+    /**
+     * Recarga todos los datos de las tablas de clientes, pólizas, siniestros y
+     * recibos desde la base de datos. Llama a los métodos loadClientesData(),
+     * loadPolizasData(), loadSiniestrosData() y loadRecibosData() para cargar
+     * los datos actualizados en las tablas correspondientes. Además, limpia las
+     * listas observables polizaClientes, reciboPoliza y siniestroPoliza para
+     * evitar duplicados de datos al recargar.
+     */
     private void reloadAllData() {
         loadClientesData();
         loadPolizasData();
@@ -831,11 +941,6 @@ public class PrimaryController implements Initializable {
             return reciboTable;
         }
         return null;
-    }
-
-    @FXML
-    private void handlePruebas(ActionEvent event) {
-        Util.generateReport(1);
     }
 
 }

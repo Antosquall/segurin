@@ -6,13 +6,54 @@ import java.time.LocalDate;
  * Representa un recibo asociado a una póliza de seguro dentro del sistema.
  */
 public class Recibo {
+
+    /**
+     * Representa los detalles de un recibo en el sistema de gestión de pólizas
+     * de seguro.
+     */
+    /**
+     * Identificador único del recibo, utilizado en la base de datos.
+     */
     private int idRecibo;
+
+    /**
+     * Número del recibo, utilizado para identificar el recibo dentro de la
+     * empresa y para el cliente.
+     */
     private String numRecibo;
+
+    /**
+     * Fecha en que el recibo fue emitido.
+     */
     private LocalDate fechaEmision;
+
+    /**
+     * Fecha en que el recibo vence. Esta fecha indica hasta cuando el pago del
+     * recibo puede ser realizado sin penalizaciones.
+     */
     private LocalDate fechaVencimiento;
+
+    /**
+     * Monto total a pagar indicado en el recibo.
+     */
     private String totalPagar;
+
+    /**
+     * Identificador de la póliza asociada con este recibo. Esto vincula el
+     * recibo a una póliza específica de seguro.
+     */
     private int idPoliza;
+
+    /**
+     * Estado actual del recibo, que puede incluir estados como 'Pagado',
+     * 'Pendiente', 'Atrasado', etc.
+     */
     private String estadoRecibo;
+
+    /**
+     * Tipo de pago utilizado para pagar el recibo, puede ser 'Tarjeta',
+     * 'Efectivo', 'Transferencia', etc.
+     */
     private String tipoPago;
 
     /**
@@ -23,6 +64,7 @@ public class Recibo {
 
     /**
      * Obtiene el ID del recibo.
+     *
      * @return el ID del recibo.
      */
     public int getIdRecibo() {
@@ -31,6 +73,7 @@ public class Recibo {
 
     /**
      * Establece el ID del recibo.
+     *
      * @param idRecibo el ID único del recibo.
      */
     public void setIdRecibo(int idRecibo) {
@@ -39,6 +82,7 @@ public class Recibo {
 
     /**
      * Obtiene el número del recibo.
+     *
      * @return el número del recibo.
      */
     public String getNumRecibo() {
@@ -47,6 +91,7 @@ public class Recibo {
 
     /**
      * Establece el número del recibo.
+     *
      * @param numRecibo el número del recibo.
      */
     public void setNumRecibo(String numRecibo) {
@@ -55,6 +100,7 @@ public class Recibo {
 
     /**
      * Obtiene la fecha de emisión del recibo.
+     *
      * @return la fecha de emisión.
      */
     public LocalDate getFechaEmision() {
@@ -63,6 +109,7 @@ public class Recibo {
 
     /**
      * Establece la fecha de emisión del recibo.
+     *
      * @param fechaEmision la fecha de emisión del recibo.
      */
     public void setFechaEmision(LocalDate fechaEmision) {
@@ -71,6 +118,7 @@ public class Recibo {
 
     /**
      * Obtiene la fecha de vencimiento del recibo.
+     *
      * @return la fecha de vencimiento.
      */
     public LocalDate getFechaVencimiento() {
@@ -79,6 +127,7 @@ public class Recibo {
 
     /**
      * Establece la fecha de vencimiento del recibo.
+     *
      * @param fechaVencimiento la fecha en la que vence el recibo.
      */
     public void setFechaVencimiento(LocalDate fechaVencimiento) {
@@ -87,6 +136,7 @@ public class Recibo {
 
     /**
      * Obtiene el total a pagar del recibo.
+     *
      * @return el total a pagar.
      */
     public String getTotalPagar() {
@@ -95,6 +145,7 @@ public class Recibo {
 
     /**
      * Establece el total a pagar del recibo.
+     *
      * @param totalPagar el monto total a pagar.
      */
     public void setTotalPagar(String totalPagar) {
@@ -103,6 +154,7 @@ public class Recibo {
 
     /**
      * Obtiene el ID de la póliza asociada al recibo.
+     *
      * @return el ID de la póliza.
      */
     public int getIdPoliza() {
@@ -111,6 +163,7 @@ public class Recibo {
 
     /**
      * Establece el ID de la póliza asociada al recibo.
+     *
      * @param idPoliza el ID de la póliza.
      */
     public void setIdPoliza(int idPoliza) {
@@ -119,6 +172,7 @@ public class Recibo {
 
     /**
      * Obtiene el estado del recibo.
+     *
      * @return el estado del recibo.
      */
     public String getEstadoRecibo() {
@@ -127,6 +181,7 @@ public class Recibo {
 
     /**
      * Establece el estado del recibo.
+     *
      * @param estadoRecibo el estado actual del recibo.
      */
     public void setEstadoRecibo(String estadoRecibo) {
@@ -135,6 +190,7 @@ public class Recibo {
 
     /**
      * Obtiene el tipo de pago del recibo.
+     *
      * @return el tipo de pago.
      */
     public String getTipoPago() {
@@ -143,6 +199,7 @@ public class Recibo {
 
     /**
      * Establece el tipo de pago del recibo.
+     *
      * @param tipoPago el método de pago utilizado.
      */
     public void setTipoPago(String tipoPago) {

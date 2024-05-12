@@ -189,8 +189,10 @@ public class UsuarioDAO {
         }
     }
 
-     /**
-     * Obtiene un usuario de la base de datos basado en el nombre de usuario y la contraseña.
+    /**
+     * Obtiene un usuario de la base de datos basado en el nombre de usuario y
+     * la contraseña.
+     *
      * @param nombreUsuario El nombre de usuario del usuario a buscar.
      * @param password La contraseña encriptada del usuario a buscar.
      * @return El objeto Usuario si se encuentra, null en caso contrario.
@@ -201,7 +203,7 @@ public class UsuarioDAO {
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, nombreUsuario);
             stmt.setString(2, password);
-            
+
             try (ResultSet resultSet = stmt.executeQuery()) {
                 if (resultSet.next()) {
                     return mapResultSetToUsuario(resultSet);
