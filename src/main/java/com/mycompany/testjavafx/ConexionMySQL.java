@@ -24,7 +24,7 @@ public class ConexionMySQL {
         ConfigLoader loader = ConfigLoader.getInstance();
         String url = "jdbc:mysql://" + loader.getProperty("db.url") + ":" + loader.getProperty("db.port") + "/segurin";
         String user = "root";
-        String password = "";
+        String password = loader.getProperty("db.password");
         try {
             return DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
@@ -69,7 +69,6 @@ public class ConexionMySQL {
         }
     }
 
-    // Otras partes de la clase se mantienen igual
     public static void main(String[] args) {
         Connection conexion = conectar();
         cerrar(conexion);
