@@ -188,7 +188,6 @@ public class Cliente {
         this.apellido = apellido;
     }
 
-    // Métodos getters y setters para cada propiedad del cliente. Documentados adecuadamente para facilitar la comprensión de su función.
     /**
      * Obtiene el identificador único del cliente.
      *
